@@ -4,11 +4,18 @@ body {
     margin: 0 auto;
 }
 main {
-    background-image: url(Images/phone_globe.jpg);
+    background-image: url(./Images/phone_globe.jpg);
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
+h2 {
+    background-color: white;
+}
 /* Typography */
+h1, h2 {
+    text-align: center;
+}
 /* block styling */
 main {
     display: flex;
@@ -16,6 +23,10 @@ main {
     justify-content: space-around;
 }
 /* Form styling */
+div {
+    border: 5px solid black;
+    display: flex;
+}
 /* Styling the products display */
 img{
     width: 200px;
