@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+        var store_name="Reece Nagaoka";
+        var hits = 1;
+        spins = 10;
+    </script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +13,14 @@
     <link rel="stylesheet" href="products-style.css">
 </head>
 <body>
-    <h1>Used Smart Phone Store</h1>
+    <header>
+        <h1>
+            <script>
+                document.write(store_name);
+            </script>'s
+           Used Smart Phone Store
+        </h1>
+    </header>
     <div><main>
     <section class="item" id="HTC" onmouseover="this.className='item rotate';" onclick="this.className='item';">
         <h2>HTC</h2>
