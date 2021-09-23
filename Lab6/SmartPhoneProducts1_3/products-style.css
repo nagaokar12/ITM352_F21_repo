@@ -12,6 +12,9 @@ main {
 h2 {
     background-color: white;
 }
+p {
+    background-color: white;
+}
 /* Typography */
 h1, h2 {
     text-align: center;
