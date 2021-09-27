@@ -33,11 +33,13 @@
     <section class="item" id="HTC" 
         onmouseover="
             this.className='item rotate'; 
-            spins_span.innerHTML=++spins;" 
+            spins_span.innerHTML=++spins;
+            hit_spin_span.innerHTML = (hit/spins).toFixed(2);
+            " 
         onclick="
             this.className='item'; 
             hits_span.innerHTML=++hits;
-            hit_spin_span.innerHTML(hits/spins).toFixed(2);
+            hit_spin_span.innerHTML = (hits/spins).toFixed(2);
             ">
         <h2>HTC</h2>
         <p>&dollar;40.00</p>
@@ -46,11 +48,13 @@
     <section class="item" id="Apple" 
         onmouseover="
             this.className='item rotate'; 
-            spins_span.innerHTML=++spins;" 
+            spins_span.innerHTML=++spins;
+            hit_spin_span.innerHTML = (hits/spins).toFixed(2);
+            " 
         onclick="
             this.className='item'; 
             hits_span.innerHTML=++hits;
-            hit_spin_span.innerHTML(hits/spins).toFixed(2);
+            hit_spin_span.innerHTML = (hits/spins).toFixed(2);
             ">
         <h2>Apple</h2>
         <p>&dollar;75.00</p>
@@ -59,11 +63,13 @@
     <section class="item" id="Nokia"
         onmouseover="
             this.className='item rotate'; 
-            spins_span.innerHTML=++spins;" 
+            spins_span.innerHTML=++spins;
+            hit_spin_span.innerHTML = (hits/spins).toFixed(2);
+            " 
         onclick="
             this.className='item'; 
             hits_span.innerHTML=++hits;
-            hit_spin_span.innerHTML(hits/spins).toFixed(2);
+            hit_spin_span.innerHTML = (hits/spins).toFixed(2);
             ">
         <h2>Nokia</h2>
         <p>&dollar;35.00</p>
@@ -72,11 +78,13 @@
     <section class="item" id="Samsung"
         onmouseover="
             this.className='item rotate'; 
-            spins_span.innerHTML=++spins;" 
+            spins_span.innerHTML=++spins;
+            hit_spin_span.innerHTML = (hits/spins).toFixed(2);
+            " 
         onclick="
             this.className='item'; 
             hits_span.innerHTML=++hits;
-            hit_spin_span.innerHTML(hits/spins).toFixed(2);
+            hit_spin_span.innerHTML = (hits/spins).toFixed(2);
             ">
         <h2>Samsung</h2>
         <p>&dollar;45.00</p>
@@ -85,30 +93,40 @@
     <section class="item" id="Blackberry"
         onmouseover="
             this.className='item rotate'; 
-            spins_span.innerHTML=++spins;" 
+            spins_span.innerHTML=++spins;
+            hit_spin_span.innerHTML = (hits/spins).toFixed(2);
+            " 
         onclick="
             this.className='item'; 
             hits_span.innerHTML=++hits;
-            hit_spin_span.innerHTML(hits/spins).toFixed(2);
+            hit_spin_span.innerHTML = (hits/spins).toFixed(2);
             ">
         <h2>Blackberry</h2>
         <p>&dollar;10.00</p>
         <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Blackberry.jpg">
     </section>
     </main></div>
+    <br>
 </body>
 <footer>
-    <h1>
-        Your One Stop Phone Shop – 
-        <script>
-            document.write(store_name)
-        </script>'s
-    </h1>
+    <script>
+        line = 1;
+        now = new Date();
+        document.write(` 
+            <table border="1" style="margin-left: auto; margin-right: auto; text-align: center;">
+                <tr><th colspan="2"><h1>Your One Stop For Used Phones - ${first_name[0] + '.' + last_name[0] + '.'}'s</h1></th></tr>
+                <tr><td>${line++}.</td><td><br />Copyright @ ${first_name + ' ' + last_name}</td></tr>
+                <tr><td>${line++}.</td><td>${now.getFullYear()}</td></tr>
+                <tr><td>${line++}</td><td>${(now.getHours() + 11) % 12 + 1 + ':' + now.getMinutes()} ${(now.getHours() < 12)?'AM':'PM'}</td></tr>
+            </table>`
+        );
+    </script>
 </footer>
 </html>
 <script>
     var hits = 0;
     var spins = 0;
     hits_span.innerHTML = hits;
-    spins_span.innerHTML= spins;
+    spins_span.innerHTML = spins;
 </script>
+
