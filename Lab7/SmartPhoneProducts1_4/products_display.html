@@ -74,13 +74,28 @@
     </section>
     <section class="item" id="Apple" 
         onmouseover="
-        if(!this.className.includes('rotate')) { 
-            this.className='item rotate'; 
-            spins_span.innerHTML=++spins;
-            hit_spin_span.innerHTML = (hit/spins).toFixed(2);
-            over_half ||= (spins < 2*hits) && (hits < spins);
-            win_span.innerHTML = over_half;
-        }
+            if(!this.className.includes('rotate')) { 
+                this.className='item rotate'; 
+                spins_span.innerHTML=++spins;
+                hit_spin_span.innerHTML = (hit/spins).toFixed(2);
+            }
+        // -- Winning progress depends on hits/spins
+        hits_spins_ratio = hits/spins;
+            if ( hits_spins_ratio > 0 && hits_spins_ratio < 0.25 ) {
+                progress = 'On your way!';
+            }
+            else if ( hits_spins_ratio >= 0.25 ) {
+                progress = 'Almost there!';
+            }
+            else if ( hits_spins_ratio >= 0.5 ) {
+                if( hits < spins) { 
+                    progress = 'You win!';
+                }
+            }
+            else {
+                progress = 'Get going!' ;
+            }
+        win_span.innerHTML = progress;
         "
         onclick="
             if(this.className.includes('rotate')) {
@@ -130,10 +145,25 @@
                 this.className='item rotate'; 
                 spins_span.innerHTML=++spins;
                 hit_spin_span.innerHTML = (hit/spins).toFixed(2);
-                over_half ||= (spins < 2*hits) && (hits < spins);
-                win_span.innerHTML = over_half;
             }
-        "
+            // -- Winning progress depends on hits/spins
+            hits_spins_ratio = hits/spins;
+            if ( hits_spins_ratio > 0 && hits_spins_ratio < 0.25 ) {
+                progress = 'On your way!';
+            }
+            else if ( hits_spins_ratio >= 0.25 ) {
+                progress = 'Almost there!';
+            }
+            else if ( hits_spins_ratio >= 0.5 ) {
+                if( hits < spins) { 
+                    progress = 'You win!';
+                }
+            }
+            else {
+                progress = 'Get going!' ;
+            }
+            win_span.innerHTML = progress;
+            "
         onclick="
             if(this.className.includes('rotate')) {
                 this.className='item'; 
@@ -156,10 +186,25 @@
                 this.className='item rotate'; 
                 spins_span.innerHTML=++spins;
                 hit_spin_span.innerHTML = (hit/spins).toFixed(2);
-                over_half ||= (spins < 2*hits) && (hits < spins);
-                win_span.innerHTML = over_half;
             }
-        "
+            // -- Winning progress depends on hits/spins
+            hits_spins_ratio = hits/spins;
+            if ( hits_spins_ratio > 0 && hits_spins_ratio < 0.25 ) {
+                progress = 'On your way!';
+            }
+            else if ( hits_spins_ratio >= 0.25 ) {
+                progress = 'Almost there!';
+            }
+            else if ( hits_spins_ratio >= 0.5 ) {
+                if( hits < spins) { 
+                    progress = 'You win!';
+                }
+            }
+            else {
+                progress = 'Get going!' ;
+            }
+            win_span.innerHTML = progress;
+            "
         onclick="
             if(this.className.includes('rotate')) {
                 this.className='item'; 
