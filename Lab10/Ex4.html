@@ -14,16 +14,13 @@
         tr {
             border: 1px solid black;
         }
-        tr:hover {
-            background-color: yellow;
-        }
     </style>
     <table style="border: 1px solid black;text-align: center;"
         onclick="
         new_row = this.appendChild(document.createElement('tr'));
         /* Create cells */
         for(i = 1; i <= this.rows[0].cells.length; i++) {
-            new_cell = new_row.appendChild(document.creatElement('td'));
+            new_cell = new_row.appendChild(document.createElement('td'));
             new_cell.innerHTML = 'xxx';
         }
         ">
