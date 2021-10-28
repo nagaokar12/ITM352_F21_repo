@@ -1,37 +1,39 @@
 <script>
-    // Product 1
-    var item1 = 'Gillette Sensor 3 Razor';
-    var quantity1 = 2;
-    var price1 = 1.23;
-        
-    // Product 2
-    var item2 = 'Barbasol Shaving Cream';
-    var quantity2 = 1;
-    var price2 = 2.64;
-        
-    // Product 3
-    var item3 = 'Nautica Cologne';
-    var quantity3 = 1;
-    var price3 = 6.17;
-        
-    // Product 4
-    var item4 = 'Rubbing Alcohol';
-    var quantity4 = 3;
-    var price4 = 0.98;
-        
-    // Product 5
-    var item5 = 'Colgate Classic Toothbrush';
-    var quantity5 = 12;
-    var price5 = 1.89;
+  // Product 1
+  var item1 = 'Gillette Sensor 3 Razor';
+  var quantity1 = 2;
+  var price1 = 1.23;
+
+  // Product 2
+  var item2 = 'Barbasol Shaving Cream';
+  var quantity2 = 1;
+  var price2 = 2.64;
+
+  // Product 3
+  var item3 = 'Nautica Cologne';
+  var quantity3 = 1;
+  var price3 = 6.17;
+
+  // Product 4
+  var item4 = 'Rubbing Alcohol';
+  var quantity4 = 3;
+  var price4 = 0.98;
+
+  // Product 5
+  var item5 = 'Colgate Classic Toothbrush';
+  var quantity5 = 12;
+  var price5 = 1.89;
 </script>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice 3</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice 3</title>
 </head>
+
 <body>
   <table border="2">
     <tbody>
@@ -57,17 +59,17 @@
         }
         // Compute tax
         var tax_rate = 0.0575;
-        var tax = tax_rate*subtotal;
+        var tax = tax_rate * subtotal;
 
         // Compute shipping
-        if(subtotal <= 50) {
+        if (subtotal <= 50) {
           shipping = 2;
         }
-        else if(subtotal <= 100) {
+        else if (subtotal <= 100) {
           shipping = 5;
         }
         else {
-          shipping = 0.05*subtotal; // 5% of subtotal
+          shipping = 0.05 * subtotal; // 5% of subtotal
         }
 
         // Compute grand total
@@ -109,4 +111,5 @@
     Subtotals over $100 will be charged 5% of the subtotal amount. <br>
   </p>
 </body>
+
 </html>
