@@ -1,22 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Display Purchase</title>
 </head>
+
 <body>
-    
+
 </body>
+
 </html>
 <script>
     let params = (new URL(document.location)).searchParams;
 
-    if(params.has('quantity_textbox')) {
-        document.write(`Thank you for ordering things!`);
+    function isNonNegInt(q, returnErrors = false) {
+        /* Check if a string q is a non-neg integer. If returnErrors is true, the array of errors is returned. Others returns true if q is a non-neg int. */
+        errors = []; // assume no errors at first
+        if (q == '') q = 0;
+        if (Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
+        else {
+            if (q < 0) errors.push('Negative value!'); // Check if it is non-negative
+            if (parseInt(q) != q) errors.push(' Not an integer!'); // Check that it is an integer
+        }
+        return returnErrors ? errors : (errors.length = 0);
     }
-    else {
+
+    if (params.has('quantity_textbox')) {
+        if(isNonNegInt(params.get('quantity_textbox'))) {
+            document.write(`Thank you for ordering ${params.get('quantity_textbox')} things!`);
+        }
+        else {
         document.write(`You need to order some things.`);
+        }
     }
+   
 </script>
