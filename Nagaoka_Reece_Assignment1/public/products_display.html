@@ -1,0 +1,31 @@
+<!-- Product display page -->
+<!-- Modified copy of my products_display.html from SmartphoneProducts3 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diecast Cars</title>
+    <link rel="stylesheet" href="./stylesheets/products-style.css">
+    <script src="./product_data.js" type="text/javascript"></script>
+</head>
+<body>
+    <h1>Reece's Diecast Shop</h1>
+    <div><main>
+    <script>
+        for(i = 0; i < products.length; i++) {
+        document.write(`
+            <section class="item">
+            <h2>${products[i].model}</h2>
+            <p>&dollar;${products[i].price}</p>
+            <img src="${products[i].image}"></img>
+            <p><b>Product remaining:</b> ${products[i].quantity_available}</p>
+            </section>
+        `);
+        }
+    </script>
+    </main></div>
+    <h1>Top shop for unique toy vehicles</h1>
+</body>
+</html>

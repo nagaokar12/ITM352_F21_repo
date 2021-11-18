@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,7 +8,7 @@
     <title>Smartphone Products</title>
     <link rel="stylesheet" href="products-style.css">
     <script>
-         var name1 = "HTC";
+        var name1 = "HTC";
         var price1 = 40.00;
         var image1 = "http://dport96.github.io/ITM352/morea/080.flow-control-II/HTC.jpg";
 
@@ -28,20 +29,24 @@
         var image5 = "http://dport96.github.io/ITM352/morea/080.flow-control-II/Blackberry.jpg";
     </script>
 </head>
+
 <body>
     <h1>Used Smart Phone Store</h1>
-    <div><main>
-    <script>
-        for(i = 1; eval("typeof name" + i) != 'undefined'; i++)
-        document.write(`
+    <div>
+        <main>
+            <script>
+                for (i = 1; eval("typeof name" + i) != 'undefined'; i++)
+                    document.write(`
         <section class="item">
         <h2>${eval("name" + i)}</h2>
         <p>&dollar;${eval("price" + i)}</p>
         <img src="${eval("image" + i)}"></img>
         </section>
         `);
-    </script>
-    </main></div>
+            </script>
+        </main>
+    </div>
     <h1>Your One Stop Phone Shop</h1>
 </body>
+
 </html>

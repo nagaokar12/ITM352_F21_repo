@@ -1,0 +1,34 @@
+/* General */
+body {
+    width:800px;
+    margin: 0 auto;
+}
+main {
+    background-image: url(../images/checkered_bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+h2, p {
+    background-color: white;
+}
+/* Typography */
+h1, h2, p {
+    text-align: center;
+}
+/* block styling */
+main {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+/* Form styling */
+div {
+    border: 5px solid black;
+    display: flex;
+}
+/* Styling the products display */
+img{
+    width: 200px;
+    height: 200px;
+}
