@@ -21,12 +21,12 @@ app.all('*', function (request, response, next) {
 /* Get body */
 app.use(express.urlencoded({ extended: true }));
 
-/* Get quantity data from order form and check it */ 
+/* Get quantity data from order form and check it */
 app.post('/process_form', function (request, response) {
     var quantities = request.body["quantity"];
     /* Assume no errors or quantities for now */
     var errors = {};
-    var has_quantities = false; 
+    var has_quantities = false;
     /* Check quantities are non-negative integers */
     for (i in quantities) {
         /* Check quantity */
@@ -42,10 +42,10 @@ app.post('/process_form', function (request, response) {
             errors['available_' + i] = `We don't have ${(quantities[i])} ${products[i].model} available.`;
         }
     }
-        // Check if quantity is selected
-        if (!has_quantities) {
-            errors['no_quantities'] = `Please select some items!`;
-         }
+    // Check if quantity is selected
+    if (!has_quantities) {
+        errors['no_quantities'] = `Please select some items!`;
+    }
 
     let qty_obj = { "quantity": JSON.stringify(request.body["quantity"]) };
     console.log(Object.keys(errors));
@@ -53,7 +53,7 @@ app.post('/process_form', function (request, response) {
     if (Object.keys(errors).length == 0) {
         products[i].quantity_available -= Number(`quantity${i}`);
         response.redirect('./invoice.html?' + qs.stringify(qty_obj));
-    } 
+    }
     /* Otherwise go back to products_display.html */
     else {
         let errs_obj = { "errors": JSON.stringify(errors) };
@@ -72,7 +72,7 @@ app.get("/products.js", function (request, response, next) {
 });
 
 /* Route all other GET requests to files in public */
-app.use(express.static('./public')); 
+app.use(express.static('./public'));
 
 /* Start server */
 app.listen(8080, () => console.log(`listening on port 8080`));
