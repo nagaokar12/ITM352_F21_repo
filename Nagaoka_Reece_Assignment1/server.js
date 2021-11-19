@@ -26,7 +26,7 @@ app.post('/process_form', function (request, response) {
     var quantities = request.body["quantity"];
     /* Assume no errors or quantities for now */
     var errors = {};
-    var has_quantities = false;
+    var check_quantities = false;
     /* Check quantities are non-negative integers */
     for (i in quantities) {
         /* Check quantity */
@@ -35,7 +35,7 @@ app.post('/process_form', function (request, response) {
         }
         /* Check if quantities were selected */
         if (quantities[i] > 0) {
-            has_quantities = true;
+            check_quantities = true;
         }
         /* Check if quantity desired is available */
         if (quantities[i] > products[i].quantity_available) {
@@ -43,7 +43,7 @@ app.post('/process_form', function (request, response) {
         }
     }
     // Check if quantity is selected
-    if (!has_quantities) {
+    if (!check_quantities) {
         errors['no_quantities'] = `Please select some items!`;
     }
 
