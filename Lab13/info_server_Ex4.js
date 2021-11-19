@@ -8,10 +8,13 @@ app.all('*', function (request, response, next) {
     next();
 });
 
+/* Product information from product_data and stores it */
 var products = require('./product_data.json');
 
+/* To keep track of each quantity sold */
 products.forEach((prod, i) => {prod.total_sold = 0});
 
+/* Monitor requests */
 app.get("/product_data.js", function (request, response, next) {
    response.type('.js');
    var products_str = `var products = ${JSON.stringify(products)};`;

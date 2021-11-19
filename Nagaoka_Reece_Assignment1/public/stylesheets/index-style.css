@@ -1,0 +1,23 @@
+/* Stylesheet for the index.html file */
+
+/* Background */
+body {
+  text-align: center;
+  vertical-align: center;
+  background-color: beige;
+  margin: 0 auto;
+}
+
+/* Font style */
+h1 {
+  font-family: Helvetica, sans-serif;
+}
+
+/* Image styling */
+img {
+  width: 50%;
+  height: 50%;
+}
+img:hover {
+  box-shadow: 0 0 2px 3px red;
+}

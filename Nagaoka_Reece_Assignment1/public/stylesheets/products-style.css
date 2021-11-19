@@ -1,4 +1,9 @@
+/* Stylesheet taken from SmartPhoneProducts3 WOD, modifications also made */
+
 /* General */
+html {
+    background-color: beige;
+}
 body {
     width:800px;
     margin: 0 auto;
@@ -12,9 +17,24 @@ main {
 h2, p {
     background-color: white;
 }
+
+/* Font styles */
+h1 {
+    font-family: Helvetica, sans-serif;
+}
+
+h2 {
+    font-family: Verdana, sans-serif;
+}
+
 /* Typography */
-h1, h2, p {
+h1, h2, h3, p {
     text-align: center;
+}
+/* Border styling */
+h2, p {
+    width: 200px;
+    border: 2px solid red;
 }
 /* block styling */
 main {
@@ -26,9 +46,11 @@ main {
 div {
     border: 5px solid black;
     display: flex;
+    text-align: center;
 }
 /* Styling the products display */
 img{
     width: 200px;
     height: 200px;
+    border: 2px solid red;
 }
