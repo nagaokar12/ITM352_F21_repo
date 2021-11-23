@@ -35,15 +35,6 @@ app.get("/login", function (request, response) {
     response.send(str);
 });
 
-app.post("/register", function(request, response) {
-    username = request.body.username;
-    user_registration_info[username] = {};
-    user_registration_info[username].password = request.body.password;
-    user_registration_info[username].email = request.body.email;
-    fs.writeFileSync(filename, JSON.stringify(user_registration_info));
-    console.log(user_registration_info);
-});
-
 app.get("/register", function (request, response) {
     // Give a simple register form
     str = `
@@ -58,12 +49,26 @@ app.get("/register", function (request, response) {
 </body>
     `;
     response.send(str);
- });
+});
 
- app.post("/register", function (request, response) {
+app.post("/register", function (request, response) {
     // process a simple register form
+    username = request.body.username;
+    if (typeof user_registration_info[username] == 'undefined' && (request.body['password'] == request.body['repeat_password'])) {
+        user_registration_info[username] = {};
+        user_registration_info[username].password = request.body.password;
+        user_registration_info[username].email = request.body.email;
 
- });
+
+        fs.writeFileSync(filename, JSON.stringify(user_registration_info));
+        response.redirect('./login');
+        console.log("Registered!");
+    }
+    else {
+        response.redirect('./register');
+        console.log("Not registered.");
+    }
+});
 
 app.post("/login", function (request, response) {
     /* Process login form POST and redirect to logged in page if ok, back to login page if not */
