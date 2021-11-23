@@ -5,12 +5,12 @@ var app = express();
 var filename = './user_data.json';
 
 if (fs.existsSync(filename)) {
-    var stats = fs.statSync(filename);
-    console.log(filename + ' has ' + stats["size"] + ' characters');
     /* Have regular data file, so read data and parse into user_registration_info object */
     let data_str = fs.readFileSync(filename, 'utf-8');
     var user_registration_info = JSON.parse(data_str);
+    var stats = fs.statSync(filename);
     console.log(user_registration_info);
+    console.log(filename + ' has ' + stats["size"] + ' characters');
 } else {
     console.log(filename + 'does not exist!');
 }
@@ -33,26 +33,6 @@ app.get("/login", function (request, response) {
 </body>
     `;
     response.send(str);
-});
-
-app.post("/login", function (request, response) {
-    /* Process login form POST and redirect to logged in page if ok, back to login page if not */
-    let login_username = request.body['username'];
-    let login_password = request.body['password'];
-
-    /* Check if username exists, then check password entered matches stored password */
-    if (typeof user_registration_info[login_username] != 'undefined') {
-        if (typeof user_registration_info[login_username]["password"] == login_password) {
-            response.send(`${login_username} is logged in`);
-        }
-        else {
-            response.send(`Incorrect password for ${login_username}`);
-        }
-    }
-    else {
-        response.send(`${login_username} does not exist`);
-    }
-    response.send('processing login', JSON.stringify(request.body));
 });
 
 app.post("/register", function(request, response) {
@@ -84,5 +64,25 @@ app.get("/register", function (request, response) {
     // process a simple register form
 
  });
+
+app.post("/login", function (request, response) {
+    /* Process login form POST and redirect to logged in page if ok, back to login page if not */
+    let login_username = request.body['username'];
+    let login_password = request.body['password'];
+
+    /* Check if username exists, then check password entered matches stored password */
+    if (typeof user_registration_info[login_username] != 'undefined') {
+        if (typeof user_registration_info[login_username]["password"] == login_password) {
+            response.send(`${login_username} is logged in`);
+        }
+        else {
+            response.send(`Incorrect password for ${login_username}`);
+        }
+    }
+    else {
+        response.send(`${login_username} does not exist`);
+    }
+    response.send('processing login', JSON.stringify(request.body));
+});
 
 app.listen(8080, () => console.log(`Listening on port 8080`));
