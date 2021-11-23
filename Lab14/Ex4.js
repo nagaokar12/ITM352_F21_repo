@@ -40,8 +40,8 @@ app.post("/register", function(request, response) {
     user_registration_info[username] = {};
     user_registration_info[username].password = request.body.password;
     user_registration_info[username].email = request.body.email;
-    console.log(user_registration_info);
     fs.writeFileSync(filename, JSON.stringify(user_registration_info));
+    console.log(user_registration_info);
 });
 
 app.get("/register", function (request, response) {
@@ -76,7 +76,7 @@ app.post("/login", function (request, response) {
             response.send(`${login_username} is logged in`);
         }
         else {
-            response.send(`Incorrect password for ${login_username}`);
+            response.redirect('./login');
         }
     }
     else {
