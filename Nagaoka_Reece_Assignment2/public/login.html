@@ -1,0 +1,48 @@
+<!-- Based on Assignment 2's login.html from Noah Kim, Spring 2021 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="stylesheets/login-style.css" rel="stylesheet">
+    <title>Login</title>
+    <script>
+        let params = (new URL(document.location)).searchParams;
+        window.onload = function () {
+            if (params.has('LogError')) {
+                username.value = params.get('username');
+                alert('Invalid Username or Password');
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <form name="login" action="process_login" method="POST">
+        <div class="container">
+            <!-- Username -->
+            <input type="text" name="username" id="username" size="40" placeholder="Enter username:" required>
+            <br>
+
+            <!-- Password -->
+            <input type="password" name="password" size="40" placeholder="Enter password:" onkeyup="" required>
+            <br>
+
+            <!-- Line breaks -->
+            <br>
+            <br>
+
+            <!-- Login button -->
+            <input type="submit" value="Login" name="login" class="btn">
+        </div>
+    </form>
+    <script>
+        /* */
+    </script>
+    <input type="button" name="newuser" value="New Members Register Here!" class="btn2"
+        onclick="window.location='./register.html' + document.location.search;">
+</body>
+
+</html>
