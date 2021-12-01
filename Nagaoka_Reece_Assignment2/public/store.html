@@ -1,0 +1,123 @@
+<!-- Template taken from w3schools Bootstrap Online Store -->
+<!-- Source: https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_temp_store&stacked=h -->
+<!DOCTYPE html>
+<html lang="en">
+<script src="./products.js" type="text/javascript"></script>
+<script>
+    /* isNonNegInt function taken from */
+    function isNonNegInt(q, return_errors = false) {
+        errors = []; // assume no errors at first
+        if (q == '') q = 0; // handle blank inputs as if they are 0
+        if (Number(q) != q) errors.push('<font color="red">Not a number!</font>'); // Check if string is a number value
+        else if (q < 0) errors.push('<font color="red">Negative value!</font>'); // Check if it is non-negative
+        else if (parseInt(q) != q) errors.push('<font color="red">Not an integer!</font>'); // Check that it is an integer
+        return return_errors ? errors : (errors.length == 0);
+    }
+
+    function checkQuantityTextbox(theTextbox) {
+        errs = isNonNegInt(theTextbox.value, true);
+        document.getElementById(theTextbox.name + '_errordiv').innerHTML = errs.join(", ");
+    }
+
+    let params = (new URL(document.location)).searchParams; // get the query string which has the form data
+
+    window.onload = function () {
+
+        // form was submitted so check that quantities are valid then redirect to invoice if ok.
+        if (params.has('errors')) {
+            var errors = JSON.parse(params.get('errors')); //turns string in object
+            let err_str = '';
+            for (err in errors) { //combine errors in one string
+                err_str += errors[err] + '\n';
+            }
+            alert(err_str);
+        }
+
+        if (params.has('quantity')) {
+            var quantities = JSON.parse(params.get('quantity')); //turns string in object
+            // put quantities in quantity textboxes
+            for (i in quantities) {
+                order_form['quantity[' + i + ']'].value = quantities[i];
+                checkQuantityTextbox(order_form['quantity[' + i + ']']);
+            }
+        }
+    }
+</script>
+<head>
+    <title>Diecast Cars | Reece's Diecast Car Shop</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="stylesheets/store-style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <div class="container text-center">
+            <h1>Reece's Diecast Shop</h1>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="active"><a href="store.html">Products</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="login.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main>
+        <form name="quantity_form" action="./process_form" method="POST">
+            <script>
+                for (i in products) {
+                    document.write(`
+                    <section class="item">
+                        <div class="container">
+                            <div class="row">
+                            <div class="col-sm-4">
+                            <div class="panel panel-primary">
+                            <div class="panel-heading">${products[i].model}</div>
+                            <div class="panel-body"><img src="${products[i].image}" class="img-responsive" style="width: 100%;" alt="Image"></div>
+                            <div class="panel-footer">
+                                <p>${products[i].quantity_available} left in stock</p>
+                                <input type="text" placeholder="Enter desired quantity here" name="quantity[${i}]" onkeyup="checkQuantityTextbox(this)">
+                                <div id="quantity[${i}]_errordiv"></div>
+                            </div>
+                        </div>
+                    </section>
+                `);
+                }
+            </script>
+
+            <!-- Create line breaks -->
+            <br><br><br>
+
+            <!-- Create purchase button -->
+            <h3><input type="submit" class="button" value="PURCHASE" onclick=""></h3>
+        </form>
+    </main>
+</body>
+<footer class="container-fluid text-center">
+    <p>&copy; Reece Nagaoka 2021</p>
+    <form class="form-inline">
+    </form>
+</footer>
+</html>

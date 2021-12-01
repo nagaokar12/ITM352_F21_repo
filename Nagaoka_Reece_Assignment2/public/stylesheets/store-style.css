@@ -1,4 +1,12 @@
+/* Stylesheet for store.html file */
 /* Modified file based on w3Schools Bootstrap Online Store template */
+
+/* Layout for products */
+main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
 
 /* Remove the navbar's default rounded borders and increase the bottom margin */
 .navbar {
@@ -16,4 +24,9 @@
 footer {
     background-color: #f2f2f2;
     padding: 25px;
+}
+
+/* Center text for purchase button */
+h3 {
+    text-align: center;
 }

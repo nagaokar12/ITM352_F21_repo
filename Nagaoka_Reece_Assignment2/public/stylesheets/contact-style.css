@@ -1,4 +1,9 @@
-/* Modified file based on w3Schools Bootstrap Online Store template */
+/* Stylesheet for the contact page */
+
+/* Center the text */
+h1, p {
+    text-align: center;
+}
 
 /* Remove the navbar's default rounded borders and increase the bottom margin */
 .navbar {

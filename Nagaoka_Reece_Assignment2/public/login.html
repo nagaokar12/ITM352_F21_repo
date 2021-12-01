@@ -6,8 +6,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="stylesheets/login-style.css" rel="stylesheet">
-    <title>Login</title>
+    <link rel="stylesheet" href="stylesheets/login-style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+
+    </style>
+    <title>Login | Reece's Diecast Shop </title>
     <script>
         let params = (new URL(document.location)).searchParams;
         window.onload = function () {
@@ -20,24 +26,57 @@
 </head>
 
 <body>
-    <form name="login" action="process_login" method="POST">
-        <div class="container">
-            <!-- Username -->
-            <input type="text" name="username" id="username" size="40" placeholder="Enter username:" required>
-            <br>
-
-            <!-- Password -->
-            <input type="password" name="password" size="40" placeholder="Enter password:" onkeyup="" required>
-            <br>
-
-            <!-- Line breaks -->
-            <br>
-            <br>
-
-            <!-- Login button -->
-            <input type="submit" value="Login" name="login" class="btn">
+    <div class="jumbotron">
+        <div class="container text-center">
+            <h1>Reece's Diecast Shop</h1>
         </div>
-    </form>
+    </div>
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="./images/R_Logo.jpg"></a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="store.html">Products</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="login.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart </a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main>
+        <form name="login" action="process_login" method="POST">
+            <div class="container">
+                <!-- Username -->
+                <input type="text" name="username" id="username" size="40" placeholder="Enter username:" required>
+                <br>
+
+                <!-- Password -->
+                <input type="password" name="password" size="40" placeholder="Enter password:" onkeyup="" required>
+                <br>
+
+                <!-- Line breaks -->
+                <br>
+                <br>
+
+                <!-- Login button -->
+                <input type="submit" value="Login" name="login" class="btn">
+
+                <!-- Line breaks -->
+                <br><br>
+            </div>
+        </form>
+    </main>
     <script>
         /* */
     </script>

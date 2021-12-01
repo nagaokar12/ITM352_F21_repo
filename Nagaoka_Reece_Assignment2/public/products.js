@@ -1,3 +1,4 @@
+var products = 
 [
     {
         "model": "Dodge Charger 1:32",

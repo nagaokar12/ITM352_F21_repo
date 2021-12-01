@@ -1,24 +1,52 @@
 <!-- Start page for Reece Nagaoka -->
 <!-- Modifed copy of my index.html file from SmartphoneProducts3 WOD -->
+<!-- Template taken from w3schools Bootstrap Online Store -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home | Reece's Diecast Shop</title>
-    <link rel="stylesheet" href="./stylesheets/index-style.css">
+    <title>Home | Reece's Diecast Car Shop</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="stylesheets/index-style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-    <h1>Diecast Store</h1>
-    <a href="products_display.html">
+
+    <div class="jumbotron">
+        <div class="container text-center">
+            <h1>Reece's Diecast Shop</h1>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <h3> Click the car to enter the store </h3>
+    <a href="store.html">
         <img id="opening page" src="./images/KyleBusch.jpg">
     </a>
-</body>
-<footer>
-    <h1>Click image to enter store</h1>
-</footer>
+    <footer class="container-fluid text-center">
+        <p>&copy; Reece Nagaoka 2021</p>
+        <form class="form-inline">
+        </form>
+        <br>
+    </footer>
 
-</html>
+</body>

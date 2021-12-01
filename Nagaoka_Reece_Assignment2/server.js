@@ -4,7 +4,7 @@
 var products = require('./products.json');
 
 /* Set the initial amount in inventory */
-products.forEach((prod, i) => { prod.quantity_available = 10; });
+products.forEach((prod, i) => { prod.quantity_available = 30; });
 var express = require('express');
 var app = express();
 
@@ -49,16 +49,17 @@ app.post('/process_form', function (request, response) {
 
     let qty_obj = { "quantity": JSON.stringify(request.body["quantity"]) };
     console.log(Object.keys(errors));
+
     /* Ask if the object is empty or not */
     if (Object.keys(errors).length == 0) {
         products[i].quantity_available -= Number(`quantity${i}`);
         response.redirect('./invoice.html?' + qs.stringify(qty_obj));
     }
-    /* Otherwise go back to products_display.html */
+    /* Otherwise go back to store.html */
     else {
         let errs_obj = { "errors": JSON.stringify(errors) };
         console.log(qs.stringify(qty_obj));
-        response.redirect('./products_display.html?' + qs.stringify(qty_obj) + '&' + qs.stringify(errs_obj));
+        response.redirect('./store.html?' + qs.stringify(qty_obj) + '&' + qs.stringify(errs_obj));
     }
 
 });
@@ -76,7 +77,6 @@ app.use(express.static('./public'));
 
 /* Start server */
 app.listen(8080, () => console.log(`listening on port 8080`));
-
 
 /* Insert isNonNegInt function */
 function isNonNegInt(q, returnErrors = false) {
