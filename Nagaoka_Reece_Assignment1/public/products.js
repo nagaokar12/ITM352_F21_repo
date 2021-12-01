@@ -1,3 +1,4 @@
+var products = 
 [
     {
         "model": "Dodge Charger 1:32",
@@ -19,7 +20,7 @@
     },
     {
         "model": "Nissan GTR 1:24",
-        "image": "./images/Nissan_GTR.jpg",
+        "image": "./images/NissanGTR.jpg",
         "price": "25.00",
         "quantity_available": "30"
     },

@@ -1,11 +1,11 @@
-/* Stylesheet for the invoice.html file */
+/* Stylesheet for store.html file */
 /* Modified file based on w3Schools Bootstrap Online Store template */
 
-/* Background */
-body {
-    background-color: beige;
-    transform: scale(1);
-    transform-origin: 0 0;
+/* Layout for products */
+main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 
 /* Remove the navbar's default rounded borders and increase the bottom margin */
@@ -26,3 +26,7 @@ footer {
     padding: 25px;
 }
 
+/* Center text for purchase button */
+h3 {
+    text-align: center;
+}

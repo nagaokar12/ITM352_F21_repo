@@ -51,14 +51,16 @@ app.post('/process_form', function (request, response) {
     console.log(Object.keys(errors));
     /* Ask if the object is empty or not */
     if (Object.keys(errors).length == 0) {
-        products[i].quantity_available -= Number(`quantity${i}`);
+        for (i in quantities) {
+            products[i].quantity_available -= Number(quantities[i]);
+        }
         response.redirect('./invoice.html?' + qs.stringify(qty_obj));
     }
     /* Otherwise go back to products_display.html */
     else {
         let errs_obj = { "errors": JSON.stringify(errors) };
         console.log(qs.stringify(qty_obj));
-        response.redirect('./products_display.html?' + qs.stringify(qty_obj) + '&' + qs.stringify(errs_obj));
+        response.redirect('./store.html?' + qs.stringify(qty_obj) + '&' + qs.stringify(errs_obj));
     }
 
 });
