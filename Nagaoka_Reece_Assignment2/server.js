@@ -1,4 +1,10 @@
-/* Based on server.js from Momoka Michimoto, FALL 2021 */
+/*
+ * Reece Nagaoka
+ * 
+ * Creates server 
+ */
+
+/* Based on server.js from Assignment 1 from Momoka Michimoto, FALL 2021 and modifed since */
 
 /* Require link to product data file */
 var products = require('./products.json');
@@ -12,10 +18,12 @@ var app = express();
 const qs = require('querystring');
 const { truncate } = require('fs');
 
-/*  monitor all requests */
+/*  Monitor all requests */
 app.all('*', function (request, response, next) {
     console.log(request.method + ' to ' + request.path);
-    next(); //keep going
+
+    /* Continue */
+    next(); 
 });
 
 /* Get body */
@@ -42,7 +50,7 @@ app.post('/process_form', function (request, response) {
             errors['available_' + i] = `We don't have ${(quantities[i])} ${products[i].model} available.`;
         }
     }
-    // Check if quantity is selected
+    /* Check to see if quantity is selected */
     if (!check_quantities) {
         errors['no_quantities'] = `Please select some items!`;
     }
@@ -52,9 +60,12 @@ app.post('/process_form', function (request, response) {
 
     /* Ask if the object is empty or not */
     if (Object.keys(errors).length == 0) {
-        products[i].quantity_available -= Number(`quantity${i}`);
-        response.redirect('./invoice.html?' + qs.stringify(qty_obj));
+        for (i in quantities) {
+            products[i].quantity_available -= Number(quantities[i]);
+        }
+        response.redirect('./login.html?' + qs.stringify(qty_obj));
     }
+
     /* Otherwise go back to store.html */
     else {
         let errs_obj = { "errors": JSON.stringify(errors) };
@@ -62,6 +73,48 @@ app.post('/process_form', function (request, response) {
         response.redirect('./store.html?' + qs.stringify(qty_obj) + '&' + qs.stringify(errs_obj));
     }
 
+});
+
+/* Taken from Lab 14 Ex4.js and modified */
+/* For the register page */
+app.post("/register", function (request, response) {
+    // process a simple register form
+    username = request.body.username;
+    if (typeof user_registration_info[username] == 'undefined' && (request.body['password'] == request.body['repeat_password'])) {
+        user_registration_info[username] = {};
+        user_registration_info[username].password = request.body.password;
+        user_registration_info[username].email = request.body.email;
+
+
+        fs.writeFileSync(filename, JSON.stringify(user_registration_info));
+        response.redirect('./login');
+        console.log("Registered!");
+    }
+    else {
+        response.redirect('./register');
+        console.log("Not registered.");
+    }
+});
+
+/* For the login page */
+app.post("/login", function (request, response) {
+    /* Process login form POST and redirect to logged in page if ok, back to login page if not */
+    let login_username = request.body['username'];
+    let login_password = request.body['password'];
+
+    /* Check if username exists, then check password entered matches stored password */
+    if (typeof user_registration_info[login_username] != 'undefined') {
+        if (typeof user_registration_info[login_username]["password"] == login_password) {
+            response.send(`${login_username} is logged in`);
+        }
+        else {
+            response.redirect('./login');
+        }
+    }
+    else {
+        response.send(`${login_username} does not exist`);
+    }
+    response.send('processing login', JSON.stringify(request.body));
 });
 
 

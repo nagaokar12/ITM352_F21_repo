@@ -1,3 +1,8 @@
+<!--
+    Reece Nagaoka
+
+    File displays the products available for purchase
+-->
 <!-- Template taken from w3schools Bootstrap Online Store -->
 <!-- Source: https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_temp_store&stacked=h -->
 <!DOCTYPE html>
@@ -37,8 +42,8 @@
             var quantities = JSON.parse(params.get('quantity')); //turns string in object
             // put quantities in quantity textboxes
             for (i in quantities) {
-                order_form['quantity[' + i + ']'].value = quantities[i];
-                checkQuantityTextbox(order_form['quantity[' + i + ']']);
+                order_form[`quantity${i}`].value = quantities[i];
+                checkQuantityTextbox(order_form[`quantity${i}`]);
             }
         }
     }
@@ -79,7 +84,7 @@
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="login.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
+                    <li><a href="login.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart </a></li>
                 </ul>
             </div>
         </div>

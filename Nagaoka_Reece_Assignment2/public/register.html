@@ -1,27 +1,93 @@
+<!--
+  * Reece Nagaoka
+  *
+  * Registration page for new users
+-->
 <!-- Based on Assignment 2's register.html from Noah Kim, Spring 2021 -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./stylesheets/register-style.css" rel="stylesheet">
-    <title>Register</title>
+    <title>Register | Reece's Diecast Shop</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
+<script>
+    /* Notifies user if there are errors present */
+    let params = (new URL(document.location)).searchParams;
+    window.onload = function() {
+        if(params.has('errors')) {
+            console.log("invalid");
+            alert('Fix the following errors: \n' + params.get('errors'));
+            Register["name"].value = params.get("name");
+            Register["username"].value = params.get("username");
+            Register["email"].value = params.get("email");
+        }
+    }
+</script>
 <body>
+    <div class="jumbotron">
+        <div class="container text-center">
+            <h1>Reece's Diecast Shop</h1>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="store.html">Products</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="login.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <div id="account">
         <form method="POST" action="process_register" name="Register">
             <div class="container">
-                <input type="text" id="username" name="username" size="40" placeholder="Enter username:">
-                <input type="email" id="email" name="email" size="40" placeholder="Enter email address:">
-                <input type="password" id="password" name="password" size="40" placeholder="Enter password:">
-                <input type="password" id="repeat_password" name="repeat_password" size="40" placeholder="Repeat password">
+                <!-- Full name -->
+                <input type="text" name="name" id="name" size="40" placeholder="Enter full name:" required><br>
+
+                <!-- Username -->
+                <input type="text" id="username" name="username" size="40" placeholder="Enter username:" required> 
+                    Enter a minimum of 4 characters and a maximum of 10 characters. <br>
                 
+                <!-- Email address -->
+                <input type="email" id="email" name="email" size="40" placeholder="Enter email address:" required> <br>
+
+                <!-- Password -->
+                <input type="password" id="password" name="password" size="40" placeholder="Enter password:" required> 
+                    Enter a minimum of 6 characters. <br>
+
+                <!-- Repeat password -->
+                <input type="password" id="repeat_password" name="repeat_password" size="40"
+                    placeholder="Repeat password" required> <br>
+
                 <!-- Line break -->
                 <br><br>
                 <input type="submit" value="Register" class="btn">
             </div>
         </form>
+        <script>
+            Register.action += document.location.search;
+        </script>
     </div>
 </body>
+
 </html>
