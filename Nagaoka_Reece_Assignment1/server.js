@@ -4,7 +4,7 @@
 var products = require('./products.json');
 
 /* Set the initial amount in inventory */
-products.forEach((prod, i) => { prod.quantity_available = 10; });
+products.forEach((prod, i) => { prod.quantity_available = 30; });
 var express = require('express');
 var app = express();
 
