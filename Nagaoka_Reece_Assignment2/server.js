@@ -84,7 +84,7 @@ app.post("/process_login", function (request, response) {
 app.post("/register", function (request, response) {
     var new_errors = {};
 
-    /* process a simple register form */
+    /* Process a simple register form */
     /* Make it so capitalization is irrelevant for usernames */
     var new_username = request.body['username'].toLowerCase();
 
@@ -117,12 +117,15 @@ app.post("/register", function (request, response) {
     if (JSON.stringify(new_errors) == '{}') {
         /* Write data and send to invoice.html */
         user_data[new_username] = {};
+        user_data[new_username].name = request.body.name;
         user_data[new_username].password = request.body.password;
         user_data[new_username].email = request.body.email;
+
+        /* Writes user information into file */
         fs.writeFileSync(filename, JSON.stringify(user_data));
 
         /* Add username and email to query */
-        request.query['username'] = new_username;
+        request.query['username'] = request.body.username;
         request.query['email'] = user_data[new_username].email;
         response.redirect('./invoice.html?' + qs.stringify(request.query));
         return;
