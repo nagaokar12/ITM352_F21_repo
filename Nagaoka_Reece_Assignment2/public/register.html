@@ -4,6 +4,7 @@
   * Registration page for new users
 -->
 <!-- Based on Assignment 2's register.html from Noah Kim, Spring 2021 -->
+<!-- Also received help from Prof. Port -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,12 +22,17 @@
     /* Notifies user if there are errors present */
     let params = (new URL(document.location)).searchParams;
     window.onload = function() {
-        if(params.has('errors')) {
-            console.log("invalid");
-            alert('Fix the following errors: \n' + params.get('errors'));
-            Register["name"].value = params.get("name");
-            Register["username"].value = params.get("username");
-            Register["email"].value = params.get("email");
+        if(params.has('reg_errors')) {
+            let errors = JSON.parse(params.get('reg_errors'));
+            let reg_data = JSON.parse(params.get('reg_data'));
+            /* If errors are present, get them and put them in place where errors occured, and put data back in text boxes */
+            for(elt of Register.elements) {
+                elt.value = reg_data[elt.name]; // makes sticky
+                if(typeof errors[elt.name] != 'undefined') { 
+                    document.getElementById(elt.name + '_label').innerHTML = `<font color="red">${errors[elt.name]}</font>`;
+                }
+                
+            }
         }
     }
 </script>
@@ -59,25 +65,35 @@
         </div>
     </nav>
     <div id="account">
-        <form method="POST" action="process_register" name="Register">
+        <script>
+            document.write(`<form class="register" method="POST" action="/register${location.search}" name="Register">`);
+        </script>
             <div class="container">
                 <!-- Full name -->
-                <input type="text" name="name" id="name" size="40" placeholder="Enter full name:" required><br>
+                <input type="text" name="name" id="name" size="40" placeholder="Enter full name:" required>
+                <label for"name" id="name_label"></label>
+                <br>
 
                 <!-- Username -->
                 <input type="text" id="username" name="username" size="40" placeholder="Enter username:" required> 
-                    Enter a minimum of 4 characters and a maximum of 10 characters. <br>
+                <label for"username" id="username_label"> Enter a minimum of 4 characters and a maximum of 10 characters.</label>
+                <br>
                 
                 <!-- Email address -->
-                <input type="email" id="email" name="email" size="40" placeholder="Enter email address:" required> <br>
+                <input type="email" id="email" name="email" size="40" placeholder="Enter email address:" required>
+                <label for"email" id="email_label"></label>
+                <br>
 
                 <!-- Password -->
                 <input type="password" id="password" name="password" size="40" placeholder="Enter password:" required> 
-                    Enter a minimum of 6 characters. <br>
+                <label for"password" id="password_label">Enter a minimum of 6 characters. </label>
+                <br>
 
                 <!-- Repeat password -->
                 <input type="password" id="repeat_password" name="repeat_password" size="40"
-                    placeholder="Repeat password" required> <br>
+                    placeholder="Repeat password" required> 
+                <label for"repeat_password" id="repeat_password_label"></label>    
+                <br>
 
                 <!-- Line break -->
                 <br><br>
