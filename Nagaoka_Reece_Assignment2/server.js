@@ -8,7 +8,7 @@
 /* Also received help from Prof. Port */
 
 /* Require link to product data file */
-var products = require(__dirname + '/products.json');
+var products = require(__dirname + '/public/products.js');
 
 /* Set the initial amount in inventory */
 products.forEach((prod, i) => { prod.quantity_available = 30; });
@@ -122,7 +122,7 @@ app.post("/register", function (request, response) {
         user_data[new_username].email = request.body.email;
 
         /* Writes user information into file */
-        fs.writeFileSync(filename, JSON.stringify(user_data));
+        fs.writeFileSync(filename, JSON.stringify(user_data), "utf-8");
 
         /* Add username and email to query */
         request.query['username'] = request.body.username;

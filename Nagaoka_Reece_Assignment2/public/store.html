@@ -102,6 +102,7 @@
                             <div class="panel-heading">${products[i].model}</div>
                             <div class="panel-body"><img src="${products[i].image}" class="img-responsive" style="width: 100%;" alt="Image"></div>
                             <div class="panel-footer">
+                                <p>$${products[i].price}</p>
                                 <p>${products[i].quantity_available} left in stock</p>
                                 <input type="text" placeholder="Enter desired quantity here" name="quantity[${i}]" onkeyup="checkQuantityTextbox(this)">
                                 <div id="quantity[${i}]_errordiv"></div>
