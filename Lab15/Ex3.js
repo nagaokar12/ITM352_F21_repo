@@ -40,6 +40,11 @@ app.get("/", function (request, response) {
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/login", function (request, response) {
+     /* Check if already logged in by seeing if the username cookie exists */
+     var welcome_str = 'Welcome! You need to login.';
+     if(typeof request.cookies.username != 'undefined') {
+      welcome_str = `Welcome ${request.cookies.username}! You logged in last on ${request.session.lastLogin}`;
+     }
     /* Give a simple login form */
     str = `
 <body>
@@ -107,6 +112,7 @@ app.post("/login", function (request, response) {
     if (typeof user_registration_info[login_username] != 'undefined') {
         if (typeof user_registration_info[login_username]["password"] == login_password) {
             request.session.lastLogin = new Date();
+            response.cookie('username,', login_username);
             response.send(`${login_username} is logged in/ You last logged in on ${lastLoginTime}`);
             return;
         }
