@@ -8,7 +8,7 @@
 /* Also received help from Prof. Port */
 
 /* Require link to product data file */
-var products = require(__dirname + '/public/products.js');
+var products = require(__dirname + '/products.json');
 
 /* Set the initial amount in inventory */
 products.forEach((prod, i) => { prod.quantity_available = 30; });
@@ -113,6 +113,8 @@ app.post("/register", function (request, response) {
         new_errors['repeat_password'] = 'Both passwords must match'
     }
 
+    let params = new URLSearchParams(request.query);
+
     /* If new_errors is empty */
     if (JSON.stringify(new_errors) == '{}') {
         /* Write data and send to invoice.html */
@@ -125,16 +127,16 @@ app.post("/register", function (request, response) {
         fs.writeFileSync(filename, JSON.stringify(user_data), "utf-8");
 
         /* Add username and email to query */
-        request.query['username'] = request.body.username;
-        request.query['email'] = user_data[new_username].email;
-        response.redirect('./invoice.html?' + qs.stringify(request.query));
+        params.append('username', request.body.username);
+        params.append('email', user_data[new_username].email);
+        response.redirect('./invoice.html?' + params.toString());
         return;
     }
     else {
         /* Put errors and registration data into query */
-        request.query['reg_errors'] = JSON.stringify(new_errors);
-        request.query['reg_data'] = JSON.stringify(request.body);
-        response.redirect(`./register.html?` + qs.stringify(request.query));
+        params.append('reg_errors', JSON.stringify(new_errors));
+        params.append('reg_data', JSON.stringify(request.body));
+        response.redirect(`./register.html?` + params.toString());
     }
 });
 
@@ -168,7 +170,7 @@ app.post('/process_form', function (request, response) {
         errors['no_quantities'] = `Please select some items!`;
     }
 
-    let qty_obj = { "quantity": JSON.stringify(request.body["quantity"]) };
+    let params = new URLSearchParams({ "quantity": JSON.stringify(request.body["quantity"]) });
     console.log(Object.keys(errors));
 
     /* Ask if the object is empty or not */
@@ -176,14 +178,14 @@ app.post('/process_form', function (request, response) {
         for (i in quantities) {
             products[i].quantity_available -= Number(quantities[i]);
         }
-        response.redirect('./login.html?' + qs.stringify(qty_obj));
+        response.redirect('./login.html?' + params.toString());
     }
 
     /* Otherwise go back to store.html */
     else {
-        let errs_obj = { "errors": JSON.stringify(errors) };
-        console.log(qs.stringify(qty_obj));
-        response.redirect('./store.html?' + qs.stringify(qty_obj) + '&' + qs.stringify(errs_obj));
+        params.append( "errors",  JSON.stringify(errors) );
+
+        response.redirect('./store.html?' + qs.stringify(qty_obj) + '&' + params.toString());
     }
 
 });

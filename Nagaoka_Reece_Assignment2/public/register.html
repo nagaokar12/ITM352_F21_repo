@@ -21,6 +21,8 @@
 <script>
     /* Notifies user if there are errors present */
     let params = (new URL(document.location)).searchParams;
+    
+    
     window.onload = function() {
         if(params.has('reg_errors')) {
             let errors = JSON.parse(params.get('reg_errors'));
@@ -66,7 +68,11 @@
     </nav>
     <div id="account">
         <script>
-            document.write(`<form class="register" method="POST" action="/register${location.search}" name="Register">`);
+            var q_str = '';
+            if(params.has('quantity')) {
+                q_str = `?quantity=${params.get('quantity')}`;
+            }
+            document.write(`<form class="register" method="POST" action='./register${q_str}' name="Register">`);
         </script>
             <div class="container">
                 <!-- Full name -->
