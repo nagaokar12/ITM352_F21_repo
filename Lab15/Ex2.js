@@ -8,11 +8,16 @@ app.use(cookieParser());
 var session = require('express-session');
 app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
 
-var filename = './user_data.json';
+var filename = __dirname + '/user_data.json';
+
+app.get('/use_session', function(request, response, next) {
+    response.send(`Welcome, your session ID is ${request.session.id}`);
+    next();
+});
 
 app.get('/set_cookie', function(request, response) {
     /* Sends a cookie to the requester */
-    response.cookie('name','Reece');
+    response.cookie('name','Reece', {maxAge: 5000});
     response.send('The name cookie has been sent!');
 });
 

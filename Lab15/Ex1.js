@@ -4,11 +4,11 @@ var app = express();
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-var filename = './user_data.json';
+var filename = __dirname + '/user_data.json';
 
 app.get('/set_cookie', function(request, response) {
     /* Sends a cookie to the requester */
-    response.cookie('name','Reece');
+    response.cookie('name','Reece', {maxAge: 5000});
     response.send('The name cookie has been sent!');
 });
 
@@ -101,7 +101,7 @@ app.post("/login", function (request, response) {
     else {
         response.send(`${login_username} does not exist`);
     }
-    response.send('processing login', JSON.stringify(request.body));
+    response.send('processing login' + JSON.stringify(request.body));
 });
 
 app.listen(8080, () => console.log(`Listening on port 8080`));
