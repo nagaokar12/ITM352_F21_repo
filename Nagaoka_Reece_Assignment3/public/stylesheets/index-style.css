@@ -1,0 +1,42 @@
+/* Stylesheet for the index.html file */
+/* Modified file based on w3Schools Bootstrap Online Store template */
+
+/* Background */
+body {
+  text-align: center;
+  vertical-align: center;
+  background-color: beige;
+  margin: 0 auto;
+}
+
+/* Font style */
+h3 {
+  font-family: Helvetica, sans-serif;
+}
+
+/* Image styling */
+img {
+  width: 50%;
+  height: 50%;
+}
+img:hover {
+  box-shadow: 0 0 2px 3px red;
+}
+
+/* Remove the navbar's default rounded borders and increase the bottom margin */
+.navbar {
+  margin-bottom: 50px;
+  border-radius: 0;
+}
+
+/* Remove the jumbotron's default bottom margin, set the background image and change the color of the text */
+.jumbotron {
+  margin-bottom: 0;
+  background-image: url(../images/CosmicLatte.png);
+}
+
+/* Add a gray background color and some padding to the footer */
+footer {
+  background-color: #f2f2f2;
+  padding: 25px;
+}
