@@ -1,4 +1,20 @@
-var products = 
+/* Based on Noah Kim's (Spring 2021) product_data.js from Assignment 3 */
+var products_array =
+[
+  {
+      'type': "standard"
+  },
+  {
+      'type': "nascar"
+  },
+  {
+      'type': 'open_wheel'
+  },
+  {
+      'type': "case"
+  }
+]
+var standard = 
 [
     {
         "model": "Dodge Charger 1:32",
@@ -31,3 +47,10 @@ var products =
         "quantity_available": "30"
     }
 ]
+var nascar = 
+[
+
+]
+var allProducts = {
+
+}
