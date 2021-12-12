@@ -1,8 +1,6 @@
-<!--
-  Reece Nagaoka
-  File displays final invoice of total purchase
--->
-
+<!-- Reece Nagaoka -->
+<!-- invoice.html -->
+<!-- File displays final invoice of total purchase -->
 <!-- Based on Invoice4 WOD -->
 <!-- Modifed version of template from Momoka Michimoto, FALL 2021 and w3schools Bootstrap Online Store -->
 <!-- Also received help from Prof. Port -->
@@ -22,58 +20,34 @@
   }
 </script>
 
-
 <!DOCTYPE html>
 <html lang="en">
-
+<!-- Link required files -->
+<script src="./navbar.js" type="text/javascript"></script>
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Invoice | Reece's Diecast Cars Shop</title>
-  <link rel="stylesheet" href="invoice-style.css">
+  <link rel="stylesheet" href="stylesheets/invoice-style.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
 <!-- used template from bootdey.com  -->
-
+<script>
+  /* Pull navbar from navbar.js */
+  navbar();
+</script>
 <body>
-  <div class="jumbotron">
-    <div class="container text-center">
-      <h1>Reece's Diecast Shop</h1>
-    </div>
-  </div>
-
-  <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-      </div>
-      <div class="collapse navbar-collapse" id="myNavbar">
-        <ul class="nav navbar-nav">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="store.html">Products</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href=""><span class="glyphicon glyphicon-shopping-cart"></span> Cart </a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
   <table style="width:100%">
     <table border="2">
       <tr>
         <th style="text-align: center;" width="43%">Item</th>
-        <th style="text-align: center;" width="11%">quantity</th>
-        <th style="text-align: center;" width="13%">price</th>
-        <th style="text-align: center;" width="54%">extended price</th>
+        <th style="text-align: center;" width="11%">Quantity</th>
+        <th style="text-align: center;" width="13%">Price</th>
+        <th style="text-align: center;" width="54%">Extended price</th>
       </tr>
       <tr>
         <script>
@@ -86,17 +60,17 @@
               <tr>
                 <td width="43%">${products[i].model}</td>
                 <td align="center" width="11%">${quantities[i]}</td>
-                <td width="13%">\$${products[i].price}</td>
-                <td width="54%">\$${extended_price.toFixed(2)}</td>
+                <td width="13%">\$ ${products[i].price}</td>
+                <td width="54%">\$ ${extended_price.toFixed(2)}</td>
               </tr>
             `);
             }
           }
-          // Compute tax @ 4.75%
+          /* Compute tax @ 4.75% */
           var tax_rate = 0.0475;
           var tax = tax_rate * subtotal;
 
-          // Compute shipping
+          /* Compute shipping */
           if (subtotal < 30) {
             shipping = 3;
           }
@@ -107,7 +81,7 @@
             shipping = 0.05 * subtotal; // 5% of subtotal
           }
 
-          // Compute grand total
+          /* Compute grand total */
           var total = subtotal + tax + shipping;
         </script>
       </tr>

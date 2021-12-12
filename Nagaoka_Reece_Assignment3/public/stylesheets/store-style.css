@@ -1,5 +1,6 @@
 /* Stylesheet for store.html file */
 /* Modified file based on w3Schools Bootstrap Online Store template */
+/* https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_temp_store&stacked=h */
 
 /* Layout for products */
 main {
@@ -13,7 +14,6 @@ main {
     margin-bottom: 50px;
     border-radius: 0;
 }
-
 /* Remove the jumbotron's default bottom margin and set a background image */
 .jumbotron {
     margin-bottom: 0;

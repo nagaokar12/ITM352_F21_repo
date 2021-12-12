@@ -1,14 +1,15 @@
-<!--
-  * Reece Nagaoka
-  *
-  * Login page to view invoice
--->
+<!-- Reece Nagaoka -->
+<!-- login.html -->
+<!-- Login page to view invoice -->
 <!-- Based on Assignment 2's login.html from Noah Kim, Spring 2021 -->
 <!-- Also received help from Prof. Port -->
 <!-- Template taken from w3schools Bootstrap Online Store -->
 <!-- Source: https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_temp_store&stacked=h -->
 <!DOCTYPE html>
 <html lang="en">
+
+<!-- Linked required files -->
+<script src="./navbar.js"></script>
 
 <head>
     <meta charset="UTF-8">
@@ -35,37 +36,11 @@
         }
     </script>
 </head>
-
+<script>
+    /* Pull navbar from navbar.js */
+    navbar();
+</script>
 <body>
-    <!-- Navbar -->
-    <div class="jumbotron">
-        <div class="container text-center">
-            <h1>Reece's Diecast Shop</h1>
-        </div>
-    </div>
-
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="./images/R_Logo.jpg"></a>
-            </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="store.html">Products</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="login.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart </a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
     <main>
         <script>
             document.write(`<form class="login" name="process_login" action="/process_login${location.search}" method="POST">`);

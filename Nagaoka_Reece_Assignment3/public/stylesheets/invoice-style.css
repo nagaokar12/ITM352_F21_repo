@@ -1,11 +1,35 @@
 /* Stylesheet for the invoice.html file */
 /* Modified file based on w3Schools Bootstrap Online Store template */
+/* Based on https://www.w3schools.com/css/tryit.asp?filename=trycss_table_fancy */
+
+/**/
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Set style so rows have alternating colors */
+tr:nth-child(even) {
+    background-color: whitesmoke;
+}
+
+tr:nth-child(odd) {
+    background-color: white;
+}
+
+th {
+    background-color: dodgerblue;
+    color: white;
+}
+
+
 
 /* Background */
 body {
     background-color: beige;
     transform: scale(1);
     transform-origin: 0 0;
+    text-align: center;
 }
 
 /* Remove the navbar's default rounded borders and increase the bottom margin */
