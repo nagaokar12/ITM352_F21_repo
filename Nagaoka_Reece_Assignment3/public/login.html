@@ -40,34 +40,36 @@
     /* Pull navbar from navbar.js */
     navbar();
 </script>
+
 <body>
     <main>
         <script>
             document.write(`<form class="login" name="process_login" action="/process_login${location.search}" method="POST">`);
         </script>
-            <div class="container">
-                <!-- Username -->
-                <input type="text" name="username" id="username" size="40" placeholder="Enter username:" required>
-                <br>
+        <div class="container">
+            <!-- Username -->
+            <input type="text" name="username" id="username" size="40" placeholder="Enter username:" required>
+            <br>
 
-                <!-- Password -->
-                <input type="password" name="password" id="password" size="40" placeholder="Enter password:" required>
-                <br>
+            <!-- Password -->
+            <input type="password" name="password" id="password" size="40" placeholder="Enter password:" required>
+            <br>
 
-                <!-- Line breaks -->
-                <br>
-                <br>
+            <!-- Line breaks -->
+            <br>
+            <br>
 
-                <!-- Login button -->
-                <input type="submit" value="Login" name="login" class="btn">
+            <!-- Login button -->
+            <input type="submit" value="Login" name="login" class="btn">
 
-                <!-- Line breaks -->
-                <br><br>
-            </div>
+            <!-- Line breaks -->
+            <br><br>
+
+            <!-- Register button -->
+            <input type="button" name="newuser" value="New Members Register Here!" class="btn2"
+                onclick="window.location='./register.html' + document.location.search;">
+        </div>
         </form>
-        <!-- Register button -->
-        <input type="button" name="newuser" value="New Members Register Here!" class="btn2"
-            onclick="window.location='./register.html' + document.location.search;">
     </main>
 </body>
 

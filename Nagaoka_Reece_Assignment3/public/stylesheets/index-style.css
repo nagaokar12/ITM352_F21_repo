@@ -29,6 +29,11 @@ img:hover {
   border-radius: 0;
 }
 
+/* Set background color */
+body {
+  background-image: url(../images/CosmicLatte.png);
+}
+
 /* Remove the jumbotron's default bottom margin, set the background image and change the color of the text */
 .jumbotron {
   margin-bottom: 0;

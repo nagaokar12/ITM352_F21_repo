@@ -20,6 +20,11 @@ main {
     background-image: url(../images/CosmicLatte.png);
 }
 
+/* Set background color */
+body {
+    background-image: url(../images/CosmicLatte.png);
+}
+
 /* Add a gray background color and some padding to the footer */
 footer {
     background-color: #f2f2f2;

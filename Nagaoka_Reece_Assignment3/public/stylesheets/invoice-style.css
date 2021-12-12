@@ -23,9 +23,9 @@ th {
 }
 
 
-
-/* Background */
+/* Set background color */
 body {
+    background-image: url(../images/CosmicLatte.png);
     background-color: beige;
     transform: scale(1);
     transform-origin: 0 0;
