@@ -27,9 +27,10 @@
     }
 
     let params = (new URL(document.location)).searchParams; // get the query string which has the form data
+    var product_key = params.get("product_key");
+    var products = allProducts[product_key];
 
     window.onload = function () {
-
         // form was submitted so check that quantities are valid then redirect to invoice if ok.
         if (params.has('errors')) {
             var errors = JSON.parse(params.get('errors')); //turns string in object
@@ -50,6 +51,7 @@
         }
     }
 </script>
+
 <head>
     <title>Diecast Cars | Reece's Diecast Car Shop</title>
     <meta charset="utf-8">
@@ -58,14 +60,17 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <style>
-
-    </style>
+    <div class="jumbotron">
+        <div class="container text-center">
+          <h1>Reece's Diecast Shop</h1>
+        </div>
+    </div>
 </head>
 <script>
     /* Pull navbar from navbar.js */
     navbar();
 </script>
+
 <body>
     <main>
         <form name="quantity_form" action="./process_form" method="POST">
@@ -74,19 +79,22 @@
                     document.write(`
                     <section class="item">
                         <div class="container">
-                        <div class="row">
-                        <div class="col-sm-4">
-                            <div class="panel panel-primary">
-                            <div class="panel-heading">${products[i].model}</div>
-                            <div class="panel-body"><img src="${products[i].image}" class="img-responsive" style="width: 100%;" alt="Image"></div>
-                            <div class="panel-footer">
-                                <p>$${products[i].price}</p>
-                                <p>${products[i].quantity_available} left in stock</p>
-                                <input type="text" placeholder="Enter desired quantity here" name="quantity[${i}]" onkeyup="checkQuantityTextbox(this)">
-                                <div id="quantity[${i}]_errordiv"></div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">${products[i].model}</div>
+                                        <div class="panel-body"><img src="${products[i].image}" class="img-responsive" style="width: 100%;" alt="Image"></div>
+                                        <div class="panel-footer">
+                                            <p>$${products[i].price}</p>
+                                            <p>${products[i].quantity_available} left in stock</p>
+                                            <input type="text" placeholder="Enter desired quantity here" name="quantity[${i}]" onkeyup="checkQuantityTextbox(this)">
+                                            <div id="quantity[${i}]_errordiv"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </section>
+                    </section> 
                 `);
                 }
             </script>
@@ -104,4 +112,5 @@
     <form class="form-inline">
     </form>
 </footer>
+
 </html>

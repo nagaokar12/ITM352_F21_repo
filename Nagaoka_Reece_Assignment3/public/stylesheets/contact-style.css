@@ -1,5 +1,10 @@
 /* Stylesheet for the contact page */
 
+/* Set background color */
+body {
+    background-image: url(../images/CosmicLatte.png);
+}
+
 /* Center the text */
 h1, p {
     text-align: center;
