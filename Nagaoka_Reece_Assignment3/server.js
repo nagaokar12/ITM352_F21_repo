@@ -6,13 +6,10 @@
 
 /* Based on server.js from Assignment 1 from Momoka Michimoto, FALL 2021 and modifed since */
 /* Also borrowed and modified code from server.js - Krizel Tomines and Margaret Mulhall (FALL 2021) */
+/* Borrowed and modified code from Assignment 3 examples as well */
 /* Received help from Prof. Port */
 
-/* Require link to product data file */
-var products = require(__dirname + '/products.json');
-
 /* Set the initial amount in inventory */
-products.forEach((prod, i) => { prod.quantity_available = 30; });
 var express = require('express');
 var app = express();
 
@@ -33,6 +30,10 @@ var nodemailer = require('nodemailer');
 /* Store user information */
 var filename = __dirname + '/user_data.json';
 
+/* Require link to product data file */
+var products = require(__dirname + '/products.json');
+var allProducts = products.allProducts;
+
 /* If the user file name exists */
 if (fs.existsSync(filename)) {
     /* Read filename (from my Lab 14 Ex1b.js) */
@@ -47,9 +48,28 @@ else {
 /*  Monitor all requests */
 app.all('*', function (request, response, next) {
     console.log(request.method + ' to ' + request.path);
-
+    if(typeof request.session.invoice == 'undefined') {request.session.invoice = {}; }
     /* Continue */
     next();
+});
+
+/* ----- From Assignment 3 Code Examples ----- */
+app.get("/get_products", function (request, response) {
+    response.json(products);
+});
+
+app.get("/add_to_cart", function(request, response) {
+    /* Get the product key to sent from the form post */
+    var products_key = request.query['products_key'];
+    /* Get quantities from the form post and convert strings from form post to numbers */
+    var quantities_rq = request.query['quantity'].map(Number);
+    /* Store the quantities array in the session cart object with the same products_key */
+    request.session.invoice[products_key] = quantities_rq;
+    response.redirect('./invoice.html');
+});
+
+app.get("/get_cart", function(request, response) {
+    response.json(request.session.invoice);
 });
 
 /* Routing */
@@ -165,17 +185,17 @@ app.post("/register", function (request, response) {
     }
 });
 
-/* ----- Set up mail server ----- */
+/* ----- Set up mail server and checkout ----- */
 app.get("/checkout", function (request, response) {
     /* Generate HTML invoice string */
     var invoice_str = `Thank you for your order!<table border><th>Quantity</th><th>Item</th>`;
     var shopping_cart = request.session.cart;
-    for (product_key in products_data) {
-        for (i = 0; i < products_data[product_key].length; i++) {
+    for (product_key in products) {
+        for (i = 0; i < products[product_key].length; i++) {
             if (typeof shopping_cart[product_key] == 'undefined') continue;
             qty = shopping_cart[product_key][i];
             if (qty > 0) {
-                invoice_str += `<tr><td>${qty}</td><td>${products_data[product_key][i].name}</td><tr>`;
+                invoice_str += `<tr><td>${qty}</td><td>${products[product_key][i].model}</td><tr>`;
             }
         }
     }
@@ -259,7 +279,15 @@ app.post('/process_form', function (request, response) {
 
 });
 
-
+/* ----- Gets quantity from cart ----- */
+/* Taken from Krizel Tomines and Margaret Mulhall's server.js (FALL 2021) */
+app.post('/cart_qty', function(request, response) {
+    var total = 0;
+    for(pkey in request.session.cart) {
+        total += request.session.cart[pkey].reduce((a, b) => a + b, 0);
+    }
+    response.JSON({qty, total});
+});
 
 /* Start server */
 app.listen(8080, () => console.log(`listening on port 8080`));

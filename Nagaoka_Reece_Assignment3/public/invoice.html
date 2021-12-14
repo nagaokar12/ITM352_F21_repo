@@ -133,6 +133,22 @@
     Subtotals over $50 will be charged 5% of the subtotal amount. <br>
   </div>
   <br>
+  <script>
+    if(getCookie("username") != false) {
+      document.write(`
+        <div id="complete_purchase" class="completePurchase">
+          <input type="button" onclick="complete_purchase();" value="Complete Purchase">
+        </div>
+      `);
+    }
+    else {
+      document.write(`
+        <div>
+          <input type="button" onclick="location.href='./login.html'; value="Login to complete purchase">
+        </div>
+      `);
+    }
+  </script>
 </body>
 
 </html>

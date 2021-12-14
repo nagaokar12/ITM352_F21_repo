@@ -2,18 +2,7 @@
  * Reece Nagaoka
  * navbar.js 
 */
-
-function loadJSON(service, callback) {
-  var xobj = new XMLHttpRequest();
-  xobj.overrideMimeType("application/json");
-  xobj.open('POST', service, false);
-  xobj.onreadystatechange = function () {
-    if (xobj.readyState == 4 && xobj.status == "200") {
-      callback(xobj.responseText);
-    }
-  };
-  xobj.send(null);
-}
+/* Based on Noah Kim's navbar.js from Assignment 3 (Spring 2021) */
 
 /* Taken from built-in navbar in files and modified */
 function navbar() {
@@ -21,6 +10,10 @@ function navbar() {
   loadJSON('/cart_qty', function (response) {
     cart_qty = JSON.parse(response);
   });
+  let params = (new URL(document.location)).searchParams; // get the query string which has the form data
+  if (params.has('products_key')) {
+    var this_product_key = params.get('products_key');
+  }
   document.write(`
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -34,16 +27,14 @@ function navbar() {
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
           <li><a href="index.html">Home</a></li>
-          <li><a href="store.html">Products</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li>${nav_bar(this_product_key, products)}</li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-        <li><a href="login.html"><span class="glyphicon glyphicon-user"></span> Login</a></li>
-        <li><a href="invoice.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart<sup></sup> </a></li>
+        <li><a href="login.html"><span class="glyphicon glyphicon-user"></span> Login </a></li>
+        <li><a href="invoice.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart <sup></sup> </a></li>
         </ul>
         </div>
     </div>
   </nav>
   `);
-
 }
