@@ -32,7 +32,6 @@ var filename = __dirname + '/user_data.json';
 
 /* Require link to product data file */
 var products = require(__dirname + '/products.json');
-var allProducts = products.allProducts;
 
 /* If the user file name exists */
 if (fs.existsSync(filename)) {
@@ -185,50 +184,6 @@ app.post("/register", function (request, response) {
     }
 });
 
-/* ----- Set up mail server and checkout ----- */
-app.get("/checkout", function (request, response) {
-    /* Generate HTML invoice string */
-    var invoice_str = `Thank you for your order!<table border><th>Quantity</th><th>Item</th>`;
-    var shopping_cart = request.session.cart;
-    for (product_key in products) {
-        for (i = 0; i < products[product_key].length; i++) {
-            if (typeof shopping_cart[product_key] == 'undefined') continue;
-            qty = shopping_cart[product_key][i];
-            if (qty > 0) {
-                invoice_str += `<tr><td>${qty}</td><td>${products[product_key][i].model}</td><tr>`;
-            }
-        }
-    }
-    invoice_str += '</table>';
-    /* Set up mail server. */
-    var transporter = nodemailer.createTransport({
-        host: "mail.hawaii.edu",
-        port: 25,
-        secure: false, // use TLS
-        tls: {
-            /* Do not fail on invalids */
-            rejectUnauthorized: false
-        }
-    });
-;
-    var mailOptions = {
-        from: 'nagaokar@hawaii.edu',
-        to: user_email,
-        subject: 'Thank you for your purchase',
-        html: invoice_str
-    };
-
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            invoice_str += '<br>There was an error and your invoice could not be emailed :(';
-        } else {
-            invoice_str += `<br>Your invoice was mailed to ${user_email}`;
-        }
-        response.send(invoice_str);
-    });
-
-});
-
 /* Get quantity data from order form and check it */
 /* ----- Process form ----- */
 app.post('/process_form', function (request, response) {
@@ -276,6 +231,50 @@ app.post('/process_form', function (request, response) {
 
         response.redirect('./store.html?' + qs.stringify(qty_obj) + '&' + params.toString());
     }
+
+});
+
+/* ----- Set up mail server and checkout ----- */
+app.get("/checkout", function (request, response) {
+    /* Generate HTML invoice string */
+    var invoice_str = `Thank you for your order!<table border><th>Quantity</th><th>Item</th>`;
+    var shopping_cart = request.session.cart;
+    for (product_key in products) {
+        for (i = 0; i < products[product_key].length; i++) {
+            if (typeof shopping_cart[product_key] == 'undefined') continue;
+            qty = shopping_cart[product_key][i];
+            if (qty > 0) {
+                invoice_str += `<tr><td>${qty}</td><td>${products[product_key][i].model}</td><tr>`;
+            }
+        }
+    }
+    invoice_str += '</table>';
+    /* Set up mail server. */
+    var transporter = nodemailer.createTransport({
+        host: "mail.hawaii.edu",
+        port: 25,
+        secure: false, // use TLS
+        tls: {
+            /* Do not fail on invalids */
+            rejectUnauthorized: false
+        }
+    });
+;
+    var mailOptions = {
+        from: 'nagaokar@hawaii.edu',
+        to: user_email,
+        subject: 'Thank you for your purchase',
+        html: invoice_str
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            invoice_str += '<br>There was an error and your invoice could not be emailed :(';
+        } else {
+            invoice_str += `<br>Your invoice was mailed to ${user_email}`;
+        }
+        response.send(invoice_str);
+    });
 
 });
 

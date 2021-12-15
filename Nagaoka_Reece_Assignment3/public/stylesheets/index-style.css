@@ -19,9 +19,6 @@ img {
   width: 50%;
   height: 50%;
 }
-img:hover {
-  box-shadow: 0 0 2px 3px red;
-}
 
 /* Remove the navbar's default rounded borders and increase the bottom margin */
 .navbar {
