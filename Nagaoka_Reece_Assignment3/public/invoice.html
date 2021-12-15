@@ -13,11 +13,6 @@
 <script src="./navbar.js" type="text/javascript"></script>
 <script>
   let params = (new URL(document.location)).searchParams;
-  /* If user is logged in, username will be in query */
-  if (params.has('username') == false) {
-    location.href = "./login.html" + location.search;
-  }
-  /* If not present, send to login */
   var quantities = [];
   if (params.has('quantity')) {
     quantities = JSON.parse(params.get(`quantity`));
@@ -26,6 +21,23 @@
   loadJSON('/get_cart', function (response) {
     cart = JSON.parse(response);
   });
+  /* Set a cookie function */
+  /* Taken from https://www.w3schools.com/js/js_cookies.asp */
+  function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while(c.charAt(0) == ' ') {
+        c = c.substring(1);      
+      }
+      if(c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
 </script>
 
 <!DOCTYPE html>
@@ -64,17 +76,19 @@
       </tr>
       <tr>
         <script>
+          /* It's only reading the first quantity in each page. Does not pick up quantity of other items */
           subtotal = 0;
-          for (this_product_key in products) {
-            for (i = 0; i < products[this_product_key].length; i++) {
-              if (quantities[i] > 0) {
-                extended_price = quantities[i] * products[this_product_key][i].price
+          for (this_product_key in cart) {
+            for (i in cart[this_product_key]) {
+              quantities = cart[this_product_key][i];
+              if (quantities > 0) {
+                extended_price = quantities * products[this_product_key][i].price
                 subtotal += extended_price;
                 document.write(`
               <tr>
                 <td width="43%">${products[this_product_key][i].model}</td>
                 <td align="center" width="11%">
-                  ${quantities[i]}
+                  ${quantities}
                 </td>
                 <td width="13%">\$ ${products[this_product_key][i].price}</td>
                 <td width="54%">\$ ${extended_price.toFixed(2)}</td>
@@ -146,21 +160,27 @@
   </div>
   <br>
   <script>
-    /* if(getCookie("username") != false) {
+    /* If user is logged in, username will be in cookie */
+    /* From Krizel Tomines and Margaret Mulhall (FALL 2021), Assignment 3 invoice.html*/
+    /* If present, complete purchase */
+    if(getCookie("username") != false) {
       document.write(`
-        <div id="complete_purchase" class="completePurchase">
-          <input type="button" onclick="complete_purchase();" value="Complete Purchase">
+        <div id="checkout" class="checkout">
+          <input class="submit" type="button" onclick="checkout()" value="Complete purchase">
         </div>
       `);
     }
+    /* Otherwise, send to login */
     else {
       document.write(`
         <div>
-          <input type="button" onclick="location.href='./login.html'; value="Login to complete purchase">
+          <input type="button" onclick="location.href='./login.html' value="Login to complete purchase">
         </div>
       `);
-    } */
+    }
   </script>
+  <!-- Line breaks -->
+  <br><br>
 </body>
 
 </html>
