@@ -11,10 +11,3 @@ function loadJSON(service, callback) {
     };
     xobj.send(null);
 }
-function nav_bar(this_product_key, products) {
-    /* Makes a navigation bar to other product pages */
-    for (let products_key in products) {
-        if (products_key == this_product_key) continue;
-        document.write(`<a href='./store.html?products_key=${products_key}'>${products_key}<a>&nbsp&nbsp&nbsp;`);
-    }
-}

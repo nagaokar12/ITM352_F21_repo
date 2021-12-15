@@ -93,6 +93,7 @@
     <main>
         <form name="quantity_form" action="./process_form" method="POST">
             <script>
+                document.write(`<input type="hidden" name="this_product_key" value="${this_product_key}"`);
                 products = products[this_product_key];
                 for (i in products) {
                     document.write(`

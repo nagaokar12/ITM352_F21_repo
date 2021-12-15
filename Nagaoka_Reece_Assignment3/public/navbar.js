@@ -4,15 +4,27 @@
 */
 /* Based on Noah Kim's navbar.js from Assignment 3 (Spring 2021) */
 
+function nav_bar(this_product_key, products) {
+  /* Makes a navigation bar to other product pages */
+  for (let products_key in products) {
+      if (products_key == this_product_key) continue;
+      document.write(`<a href='./store.html?products_key=${products_key}'>${products_key}<a>&nbsp&nbsp&nbsp;`);
+  }
+}
+
 /* Taken from built-in navbar in files and modified */
 function navbar() {
   var cart_qty;
-  loadJSON('/cart_qty', function (response) {
-    cart_qty = JSON.parse(response);
-  });
+  /* loadJSON('/cart_qty', function (response) {
+    console.log(response);
+    let data = JSON.parse(response);
+    cart_qty = data["total"];
+  }); */
+
   let params = (new URL(document.location)).searchParams; // get the query string which has the form data
+  let this_product_key = "";
   if (params.has('products_key')) {
-    var this_product_key = params.get('products_key');
+    this_product_key = params.get('products_key');
   }
   document.write(`
   <nav class="navbar navbar-inverse">

@@ -57,20 +57,6 @@ app.get("/get_products", function (request, response) {
     response.json(products);
 });
 
-app.get("/add_to_cart", function(request, response) {
-    /* Get the product key to sent from the form post */
-    var products_key = request.query['products_key'];
-    /* Get quantities from the form post and convert strings from form post to numbers */
-    var quantities_rq = request.query['quantity'].map(Number);
-    /* Store the quantities array in the session cart object with the same products_key */
-    request.session.invoice[products_key] = quantities_rq;
-    response.redirect('./invoice.html');
-});
-
-app.get("/get_cart", function(request, response) {
-    response.json(request.session.invoice);
-});
-
 /* Routing */
 app.get("/products.js", function (request, response, next) {
     response.type('.js');
@@ -188,6 +174,7 @@ app.post("/register", function (request, response) {
 /* ----- Process form ----- */
 app.post('/process_form', function (request, response) {
     var quantities = request.body["quantity"];
+    var this_product_key = request.body["this_product_key"];
 
     /* Assume no errors or quantities for now */
     var errors = {};
@@ -197,15 +184,15 @@ app.post('/process_form', function (request, response) {
     for (i in quantities) {
         /* Check quantity */
         if (isNonNegInt(quantities[i]) == false) {
-            errors['quantity_' + i] = `Please choose a valid quantity for ${products[i].model}`;
+            errors['quantity_' + i] = `Please choose a valid quantity for ${products[this_product_key][i].model}`;
         }
         /* Check if quantities were selected */
         if (quantities[i] > 0) {
             check_quantities = true;
         }
         /* Check if quantity desired is available */
-        if (quantities[i] > products[i].quantity_available) {
-            errors['available_' + i] = `We don't have ${(quantities[i])} ${products[i].model} available.`;
+        if (quantities[i] > products[this_product_key][i].quantity_available) {
+            errors['available_' + i] = `We don't have ${(quantities[i])} ${products[this_product_key][i].model} available.`;
         }
     }
 
@@ -214,24 +201,30 @@ app.post('/process_form', function (request, response) {
         errors['no_quantities'] = `Please select some items!`;
     }
 
-    let params = new URLSearchParams({ "quantity": JSON.stringify(request.body["quantity"]) });
+    let params = new URLSearchParams();
+    params.append("products_key", this_product_key);
+    params.append("quantities", JSON.stringify(quantities));
     console.log(Object.keys(errors));
 
     /* Ask if the object is empty or not */
     if (Object.keys(errors).length == 0) {
+        /* Remove items from shopping cart. What if user never checks out? */
         for (i in quantities) {
-            products[i].quantity_available -= Number(quantities[i]);
+            products[this_product_key][i].quantity_available -= Number(quantities[i]);
         }
-        response.redirect('./login.html?' + params.toString());
+        /* Add quantities to shopping cart */
+        if(typeof request.session.cart == 'undefined') {
+            request.session.cart = {};
+        }
+        request.session.cart[this_product_key] = quantities;
+        console.log(request.session.cart);
     }
 
     /* Otherwise go back to store.html */
     else {
         params.append("errors", JSON.stringify(errors));
-
-        response.redirect('./store.html?' + qs.stringify(qty_obj) + '&' + params.toString());
     }
-
+    response.redirect('./store.html?' + params.toString());
 });
 
 /* ----- Set up mail server and checkout ----- */
@@ -278,14 +271,23 @@ app.get("/checkout", function (request, response) {
 
 });
 
+/* ----- Get shopping cart ----- */
+/* Professor Port provided help for this */
+app.get("/get_cart", function(request, response) {
+    if(typeof request.session.cart == "undefined") {
+        request.session.cart = {};
+    }
+    response.json(request.session.cart);
+});
+
 /* ----- Gets quantity from cart ----- */
 /* Taken from Krizel Tomines and Margaret Mulhall's server.js (FALL 2021) */
-app.post('/cart_qty', function(request, response) {
+app.get('/cart_qty', function(request, response) {
     var total = 0;
     for(pkey in request.session.cart) {
         total += request.session.cart[pkey].reduce((a, b) => a + b, 0);
     }
-    response.JSON({qty, total});
+    response.json({"total": total});
 });
 
 /* Start server */
