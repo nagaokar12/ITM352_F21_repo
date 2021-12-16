@@ -1,0 +1,28 @@
+/* Modified file based on w3Schools Bootstrap Online Store template */
+
+/* Remove the navbar's default rounded borders and increase the bottom margin */
+.navbar {
+    margin-bottom: 50px;
+    border-radius: 0;
+}
+
+/* Remove the jumbotron's default bottom margin and set a background image */
+.jumbotron {
+    margin-bottom: 0;
+    background-image: url(../images/CosmicLatte.png);
+}
+
+/* Set background color */
+body {
+    background-image: url(../images/CosmicLatte.png);
+}
+
+/* Add a gray background color and some padding to the footer */
+footer {
+    background-color: #f2f2f2;
+    padding: 25px;
+}
+
+.btn {
+    border-radius: 5px;
+}

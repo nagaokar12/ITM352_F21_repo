@@ -1,0 +1,97 @@
+<!-- Reece Nagaoka -->
+<!-- register.html -->
+<!-- Registration page for new users -->
+<!-- Based on Assignment 2's register.html from Noah Kim, Spring 2021 -->
+<!-- Also received help from Prof. Port -->
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Linked required files -->
+<script src="./functions.js" type="text/javascript"></script>
+<script src="./navbar.js" type="text/javascript"></script>
+<script src="./products.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./stylesheets/register-style.css" rel="stylesheet">
+    <title>Register | Reece's Diecast Shop</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <div class="jumbotron">
+        <div class="container text-center">
+            <h1>Reece's Diecast Shop</h1>
+        </div>
+    </div>
+    <script>
+        /* Pull navbar from navbar.js */
+        navbar();
+    </script>
+</head>
+<script>
+    /* Notifies user if there are errors present */
+    let params = (new URL(document.location)).searchParams;
+    window.onload = function () {
+        if (params.has('reg_errors')) {
+            let errors = JSON.parse(params.get('reg_errors'));
+            let reg_data = JSON.parse(params.get('reg_data'));
+            /* If errors are present, get them and put them in place where errors occured, and put data back in text boxes */
+            for (elt of Register.elements) {
+                elt.value = reg_data[elt.name]; // makes sticky
+                if (typeof errors[elt.name] != 'undefined') {
+                    document.getElementById(elt.name + '_label').innerHTML = `<font color="red">${errors[elt.name]}</font>`;
+                }
+
+            }
+        }
+    }
+</script>
+
+<body>
+    <div id="account">
+        <script>
+            var q_str = '';
+            if (params.has('quantity')) {
+                q_str = `?quantity=${params.get('quantity')}`;
+            }
+            document.write(`<form class="register" method="POST" action='./register${q_str}' name="Register">`);
+        </script>
+        <div class="container">
+            <!-- Full name -->
+            <input type="text" name="name" id="name" size="40" placeholder="Enter full name:" required>
+            <label for"name" id="name_label"></label>
+            <br>
+
+            <!-- Username -->
+            <input type="text" id="username" name="username" size="40" placeholder="Enter username:" required>
+            <label for"username" id="username_label">Enter a minimum of 4 characters and a maximum of 10
+                characters.</label>
+            <br>
+
+            <!-- Email address -->
+            <input type="email" id="email" name="email" size="40" placeholder="Enter email address:" required>
+            <label for"email" id="email_label"></label>
+            <br>
+
+            <!-- Password -->
+            <input type="password" id="password" name="password" size="40" placeholder="Enter password:" required>
+            <label for"password" id="password_label">Enter a minimum of 6 characters. </label>
+            <br>
+
+            <!-- Repeat password -->
+            <input type="password" id="repeat_password" name="repeat_password" size="40" placeholder="Repeat password"
+                required>
+            <label for"repeat_password" id="repeat_password_label"></label>
+            <br>
+
+            <!-- Line break -->
+            <br><br>
+            <button type="submit" value="Register" class="btn">Register</button>
+        </div>
+        </form>
+    </div>
+</body>
+
+</html>
