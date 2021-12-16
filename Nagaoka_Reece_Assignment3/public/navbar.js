@@ -14,18 +14,12 @@ function nav_bar(this_product_key, products) {
 
 /* Taken from built-in navbar in files and modified */
 function navbar() {
-  var cart_qty;
-  /* loadJSON('/cart_qty', function (response) {
-    console.log(response);
-    let data = JSON.parse(response);
-    cart_qty = data["total"];
-  }); */
-
   let params = (new URL(document.location)).searchParams; // get the query string which has the form data
   let this_product_key = "";
   if (params.has('products_key')) {
     this_product_key = params.get('products_key');
   }
+  
   document.write(`
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -39,11 +33,11 @@ function navbar() {
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
           <li><a href="index.html">Home</a></li>
-          <li>${nav_bar(this_product_key, products)}</li>
+          <li><a href="${nav_bar(this_product_key, products)}"></a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
         <li><a href="login.html"><span class="glyphicon glyphicon-user"></span> Login </a></li>
-        <li><a href="invoice.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart <sup></sup> </a></li>
+        <li><a href="invoice.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart <sup>()</sup> </a></li>
         </ul>
         </div>
     </div>
