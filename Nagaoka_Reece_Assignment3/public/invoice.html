@@ -76,7 +76,6 @@
       </tr>
       <tr>
         <script>
-          /* It's only reading the first quantity in each page. Does not pick up quantity of other items */
           subtotal = 0;
           for (this_product_key in cart) {
             for (i in cart[this_product_key]) {
@@ -159,23 +158,20 @@
     Subtotals over $50 will be charged 5% of the subtotal amount. <br>
   </div>
   <br>
+  <br><br>
   <script>
     /* If user is logged in, username will be in cookie */
     /* From Krizel Tomines and Margaret Mulhall (FALL 2021), Assignment 3 invoice.html*/
     /* If present, complete purchase */
     if(getCookie("username") != false) {
       document.write(`
-        <div id="checkout" class="checkout">
-          <input class="submit" type="button" onclick="checkout()" value="Complete purchase">
-        </div>
+        <input class="submit" type="button" onclick="location.href='/checkout'" value="Complete purchase">
       `);
     }
     /* Otherwise, send to login */
     else {
       document.write(`
-        <div>
-          <input class="submit" type="button" onclick="location.href='./login.html' value="Login to complete purchase">
-        </div>
+        <input type="button" onclick="location.href='./login.html'" value="Login to complete purchase">
       `);
     }
   </script>

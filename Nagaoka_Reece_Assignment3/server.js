@@ -58,7 +58,7 @@ function isNonNegInt(q, returnErrors = false) {
 /*  Monitor all requests */
 app.all('*', function (request, response, next) {
     console.log(request.method + ' to ' + request.path);
-    if(typeof request.session.invoice == 'undefined') {request.session.invoice = {}; }
+    if (typeof request.session.invoice == 'undefined') { request.session.invoice = {}; }
     /* Continue */
     next();
 });
@@ -100,7 +100,7 @@ app.post("/process_login", function (request, response) {
             /* Session expires after 30 minutes */
             response.cookie('username', login_username, { maxAge: 30 * 60 * 100 });
             /* Redirect to invoice */
-            response.redirect('./invoice.html?' + qs.stringify(request.query));
+            response.redirect('./store.html?products_key=standard&' + qs.stringify(request.query));
             return;
         }
         else {
@@ -170,7 +170,7 @@ app.post("/register", function (request, response) {
         params.append('username', request.body.username);
         params.append('email', user_data[new_username].email);
         response.cookie('username', new_username).send;
-        response.redirect('./invoice.html?' + params.toString());
+        response.redirect('./store.html?products_key=standard&' + params.toString());
         return;
     }
     else {
@@ -183,6 +183,7 @@ app.post("/register", function (request, response) {
 
 /* Get quantity data from order form and check it */
 /* ----- Process form ----- */
+/* Change process_form to something like "add_to_cart" */
 app.post('/process_form', function (request, response) {
     var quantities = request.body["quantity"];
     var this_product_key = request.body["this_product_key"];
@@ -202,8 +203,10 @@ app.post('/process_form', function (request, response) {
             check_quantities = true;
         }
         /* Check if quantity desired is available */
-        if (quantities[i] > products[this_product_key][i].quantity_available) {
+        if (Number(quantities[i]) > products[this_product_key][i].quantity_available) {
             errors['available_' + i] = `We don't have ${(quantities[i])} ${products[this_product_key][i].model} available.`;
+            console.log(quantities[i]);
+            console.log(products[this_product_key][i].quantity_available);
         }
     }
 
@@ -219,15 +222,11 @@ app.post('/process_form', function (request, response) {
 
     /* Ask if the object is empty or not */
     if (Object.keys(errors).length == 0) {
-        /* Remove items from shopping cart. What if user never checks out? */
-        for (i in quantities) {
-            products[this_product_key][i].quantity_available -= Number(quantities[i]);
-        }
         /* Add quantities to shopping cart */
-        if(typeof request.session.cart == 'undefined') {
+        if (typeof request.session.cart == 'undefined') {
             request.session.cart = {};
         }
-        request.session.cart[this_product_key] = quantities;
+        request.session.cart[this_product_key] = quantities.map(Number);
         console.log(request.session.cart);
     }
 
@@ -240,25 +239,32 @@ app.post('/process_form', function (request, response) {
 
 /* ----- Get shopping cart ----- */
 /* Professor Port provided help for this */
-app.get("/get_cart", function(request, response) {
-    if(typeof request.session.cart == "undefined") {
+app.get("/get_cart", function (request, response) {
+    if (typeof request.session.cart == "undefined") {
         request.session.cart = {};
     }
     response.json(request.session.cart);
 });
 
-/* ----- Gets quantity from cart ----- */
+/* ----- Gets quantity from cart and displays number of items in navbar.js ----- */
 /* Taken from Krizel Tomines and Margaret Mulhall's server.js (FALL 2021) */
-app.get('/cart_qty', function(request, response) {
+app.get('/cart_qty', function (request, response) {
     var total = 0;
-    for(pkey in request.session.cart) {
+    for (pkey in request.session.cart) {
         total += request.session.cart[pkey].reduce((a, b) => a + b, 0);
     }
-    response.json({"total": total});
+    response.json({ "total": total });
+});
+
+/* ----- Update cart after items are added or removed ----- */
+/* ----- Used in invoice.html ----- */
+/* From Tina Vo (FALL 2021), Assignment 3 server.js */
+app.post('/update_cart', function (request, response) {
+    
 });
 
 /* ----- Process logout ----- */
-app.get('/logout', function(request, response) {
+app.get('/logout', function (request, response) {
     /* Create string */
     str = `<script>alert('You have logged out.'); location.href="./index.html";</script>`;
     /* Clear cookie data associated w/username */
@@ -266,20 +272,135 @@ app.get('/logout', function(request, response) {
     /* Send the string */
     response.send(str);
     /* End session */
-    request.session.destroy;
-    /* Redirect user to home page */
-    response.redirect('./index.html');
+    request.session.destroy();
 });
 
 /* ----- Set up mail server and checkout ----- */
 /* Based on Assignment 3 code example */
 app.get("/checkout", function (request, response) {
+    /* Pull username from cookie */
+    var username = request.cookies['username'];
+    /* Set to no errors */
+    var errors = {};
+
+    /* Check if quantities in shopping cart are still available. */
+    for (let pk in request.session.cart) {
+        let quantities = request.session.cart[pk];
+        for (let i in quantities) {
+            /* If not, send back to invoice with messge to update */
+            if (Number(quantities[i]) > products[pk][i].quantity_available) {
+                errors['available_' + pk + '_' + i] = `We don't have ${(quantities[i])} ${products[pk][i].model} available.`;
+            }
+        }
+    }
+    /* Remove quantities in cart from available quantities */
+    if (Object.keys(errors).length > 0) {
+        /* Send back to invoice */
+        let params = new URLSearchParams({ "errors": JSON.stringify(errors) });
+        response.redirect('./invoice.html?' + params.toString());
+        return;
+    }
+    for (let pk in request.session.cart) {
+        let quantities = request.session.cart[pk];
+        for (let i in quantities) {
+            products[pk][i].quantity_available -= Number(request.session.cart[pk][i]);
+        }
+    }
+
+
+    /* Send invoice to email */
+    /* Initialize variables */
+    var user_email = user_data[username].email;
+    console.log(user_email);
+    var cart = request.session.cart;
+
     /* Generate HTML invoice string */
-    
+    invoice_str = `
+        <link rel="stylesheet" type="text/css" href="stylesheets/invoice-style.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <div class="jumbotron">
+            <div class="container text-center">
+                <h1>Reece's Diecast Shop</h1>
+            </div>
+        </div>
+        <table style="width:100%">
+            <table border="2">
+                <tr>
+                    <th style="text-align: center;" width="43%">Item</th>
+                    <th style="text-align: center;" width="11%">Quantity</th>
+                    <th style="text-align: center;" width="13%">Price</th>
+                    <th style="text-align: center;" width="54%">Extended price</th>
+                </tr>`;
+    subtotal = 0;
+    for (this_product_key in cart) {
+        for (i in cart[this_product_key]) {
+            quantities = cart[this_product_key][i];
+            if (quantities > 0) {
+                extended_price = quantities * products[this_product_key][i].price
+                subtotal += extended_price;
+                invoice_str = `
+                      <tr>
+                        <td width="43%">${products[this_product_key][i].model}</td>
+                        <td align="center" width="11%">
+                          ${quantities}
+                        </td>
+                        <td width="13%">\$ ${products[this_product_key][i].price}</td>
+                        <td width="54%">\$ ${extended_price.toFixed(2)}</td>
+                      </tr>`;
+            }
+        }
+    }
+    /* Compute tax @ 4.75% */
+    var tax_rate = 0.0475;
+    var tax = tax_rate * subtotal;
+
+    /* Compute shipping */
+    if (subtotal < 30) {
+        shipping = 3;
+    }
+    else if (subtotal < 50) {
+        shipping = 4;
+    }
+    else {
+        /* 5% of subtotal */
+        shipping = 0.05 * subtotal;
+    }
+
+    /* Compute grand total */
+    var total = subtotal + tax + shipping;
+    invoice_str += `
+            </tr>
+            <!-- Write out totals -->
+            <tr>
+            <td colspan="4" width="100%">&nbsp;</td>
+            </tr>
+            <tr>
+            <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
+            <td width="54%">$${subtotal.toFixed(2)}</td>
+            </tr>
+            <tr>
+            <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @ ${100 * tax_rate}%</span></td>
+            <td width="54%">$${tax.toFixed(2)}</td>
+            </tr>
+            <tr>
+            <td style="text-align: center;" colspan="3" width="67%">Shipping</span></td>
+            <td width="54%">$${shipping.toFixed(2)}</td>
+            </tr>
+            <tr>
+            <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
+            <td width="54%"><strong>$${total.toFixed(2)}</strong></td>
+            </tr>
+        </table>
+    </table>
+    <br> 
+    <label>OUR SHIPPING POLICY IS: </label><br>
+    A subtotal $0 - $29.99 will be $3 shipping. <br>
+    A subtotal $30 - $49.99 will be $4 shipping. <br>
+    Subtotals over $50 will be charged 5% of the subtotal amount. <br>`;
 
     /* Set up mail server. */
     var transporter = nodemailer.createTransport({
-        host: "mail.hawaii.edu",
+        host: 'mail.hawaii.edu',
         port: 25,
         secure: false, // use TLS
         tls: {
@@ -300,20 +421,17 @@ app.get("/checkout", function (request, response) {
     transporter.sendMail(mailOptions, function (error, info) {
         /* If there's an error message */
         if (error) {
+            console.log(error);
             invoice_str += '<br>There was an error and your invoice could not be emailed :(';
-        } 
+        }
         /* Otherwise send it */
         else {
-            invoice_str += `<br>Your invoice was mailed to ${user_email}`;
+            invoice_str += `<br>Your invoice was mailed to ${user_email}}. Thank you for shopping with us.`;
         }
         response.send(invoice_str);
     });
     request.session.destroy();
 });
-
-
-
-
 
 /* Start server */
 app.listen(8080, () => console.log(`listening on port 8080`));

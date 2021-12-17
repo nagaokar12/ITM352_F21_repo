@@ -11,7 +11,6 @@
 <script src="./products.js"></script>
 <script src="./navbar.js" type="text/javascript"></script>
 <script>
-    /* Taken from Noah Kim's (Spring 2021) Assignment 3 products.html */
     /* isNonNegInt function taken from */
     function isNonNegInt(q, return_errors = false) {
         errors = []; // assume no errors at first
@@ -27,19 +26,13 @@
         document.getElementById(theTextbox.name + '_errordiv').innerHTML = errs.join(", ");
     }
 
-    var products;
-    var total = 0;
-    loadJSON('get_products', function (response) {
-        products = JSON.parse(response);
-    });
+
     /* Get the shopping cart data */
     loadJSON('get_cart', function (response) {
         shopping_cart = JSON.parse(response);
-        for (pk in shopping_cart) {
-            total += shopping_cart[pk].reduce((a, b) => a + b);
-        }
     });
 
+    /* Prof. Port helped me with this */
     let params = (new URL(document.location)).searchParams; // get the query string which has the form data
     if (params.has('products_key')) {
         var this_product_key = params.get('products_key');
@@ -49,23 +42,23 @@
     }
 
     window.onload = function () {
-        // form was submitted so check that quantities are valid then redirect to invoice if ok.
+        /* form was submitted so check that quantities are valid then redirect to invoice if ok. */
         if (params.has('errors')) {
+            /* Make quantity inside of textbox what was entered after add to cart */
+            if (params.has('quantities')) {
+                var quantities = JSON.parse(params.get('quantities')); //turns string in object
+                // put quantities in quantity textboxes
+                for (let i in quantities) {
+                    quantity_form[`quantity[${i}]`].value = quantities[i];
+                    checkQuantityTextbox(quantity_form[`quantity[${i}]`]);
+                }
+            }
             var errors = JSON.parse(params.get('errors')); //turns string in object
             let err_str = '';
             for (err in errors) { //combine errors in one string
                 err_str += errors[err] + '\n';
             }
             alert(err_str);
-        }
-
-        if (params.has('quantity')) {
-            var quantities = JSON.parse(params.get('quantity')); //turns string in object
-            // put quantities in quantity textboxes
-            for (i in quantities) {
-                order_form[`quantity${i}`].value = quantities[i];
-                checkQuantityTextbox(order_form[`quantity${i}`]);
-            }
         }
     }
 </script>
@@ -96,6 +89,11 @@
                 document.write(`<input type="hidden" name="this_product_key" value="${this_product_key}"`);
                 products = products[this_product_key];
                 for (i in products) {
+                    /* Make quantity data sticky in text box */
+                    let qty = 0;
+                    if (typeof shopping_cart[this_product_key] != 'undefined') {
+                        qty = shopping_cart[this_product_key][i];
+                    }
                     document.write(`
                     <section class="item">
                         <div class="container">
@@ -107,7 +105,7 @@
                                         <div class="panel-footer">
                                             <p>$${products[i].price}</p>
                                             <p>${products[i].quantity_available} left in stock</p>
-                                            <input type="text" placeholder="Enter desired quantity here" name="quantity[${i}]" onkeyup="checkQuantityTextbox(this)">
+                                            <input type="text" placeholder="Enter desired quantity here" name="quantity[${i}]" value="${qty}" onkeyup="checkQuantityTextbox(this)">
                                             <div id="quantity[${i}]_errordiv"></div>
                                         </div>
                                     </div>
