@@ -338,7 +338,7 @@ app.get("/checkout", function (request, response) {
             if (quantities > 0) {
                 extended_price = quantities * products[this_product_key][i].price
                 subtotal += extended_price;
-                invoice_str = `
+                invoice_str += `
                       <tr>
                         <td width="43%">${products[this_product_key][i].model}</td>
                         <td align="center" width="11%">
@@ -376,19 +376,19 @@ app.get("/checkout", function (request, response) {
             </tr>
             <tr>
             <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
-            <td width="54%">$${subtotal.toFixed(2)}</td>
+            <td width="54%">$ ${subtotal.toFixed(2)}</td>
             </tr>
             <tr>
             <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @ ${100 * tax_rate}%</span></td>
-            <td width="54%">$${tax.toFixed(2)}</td>
+            <td width="54%">$ ${tax.toFixed(2)}</td>
             </tr>
             <tr>
             <td style="text-align: center;" colspan="3" width="67%">Shipping</span></td>
-            <td width="54%">$${shipping.toFixed(2)}</td>
+            <td width="54%">$ ${shipping.toFixed(2)}</td>
             </tr>
             <tr>
             <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
-            <td width="54%"><strong>$${total.toFixed(2)}</strong></td>
+            <td width="54%"><strong>$ ${total.toFixed(2)}</strong></td>
             </tr>
         </table>
     </table>
@@ -426,7 +426,7 @@ app.get("/checkout", function (request, response) {
         }
         /* Otherwise send it */
         else {
-            invoice_str += `<br>Your invoice was mailed to ${user_email}}. Thank you for shopping with us.`;
+            invoice_str += `<br>Your invoice was mailed to ${user_email}. Thank you for shopping with us.`;
         }
         response.send(invoice_str);
     });
